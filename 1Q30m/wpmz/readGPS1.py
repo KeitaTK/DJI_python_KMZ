@@ -21,6 +21,7 @@ def extract_coordinates(kml_file):
     return coords
 
 if __name__ == '__main__':
+    # kml_path = r"C:\Users\keita\Documents\local\M30_GPS\1Q30m\wpmz\template_corrected.kml"
     kml_path = r"C:\Users\keita\Documents\local\M30_GPS\1Q30m\wpmz\template.kml"
     coordinates = extract_coordinates(kml_path)
     for idx, coord in enumerate(coordinates):
