@@ -12,8 +12,8 @@ YAW_ANGLE = 87.37              # 機体ヨー角度[°]（常時固定）
 VIDEO_TYPE = 'zoom'            # 動画種別（'zoom', 'wide', 'ir'）
 ZOOM_FACTOR = 5                # ズーム倍率（zoom時のみ有効）
 ENABLE_ZOOM = 1                # ズームカメラを使うか（0:使わない, 1:使う）
-ENABLE_WIDE = 0                # ワイドカメラを使うか（0:使わない, 1:使う）
-ENABLE_IR = 0                  # IRカメラを使うか（0:使わない, 1:使う）
+ENABLE_WIDE = 1                # ワイドカメラを使うか（0:使わない, 1:使う）
+ENABLE_IR = 1                  # IRカメラを使うか（0:使わない, 1:使う）
 PAYLOAD_POSITION_INDEX = '0'   # ペイロード位置インデックス
 
 # 入出力ファイルパス
