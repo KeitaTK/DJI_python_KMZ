@@ -52,7 +52,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -67,7 +67,7 @@
           <wpml:actionTrigger>
             <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
           </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>998</wpml:actionId><wpml:actionActuatorFunc>startRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType></wpml:actionActuatorFuncParam></wpml:action><wpml:action>
+          <wpml:action><wpml:actionId>998</wpml:actionId><wpml:actionActuatorFunc>startRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType><wpml:zoomFactor>5</wpml:zoomFactor></wpml:actionActuatorFuncParam></wpml:action><wpml:action>
             <wpml:actionId>0</wpml:actionId>
             <wpml:actionActuatorFunc>rotateYaw</wpml:actionActuatorFunc>
             <wpml:actionActuatorFuncParam>
@@ -90,7 +90,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -128,7 +128,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -177,7 +177,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -190,7 +190,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -239,7 +239,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -252,7 +252,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -301,7 +301,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -314,7 +314,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -363,7 +363,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -376,7 +376,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -425,7 +425,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -438,7 +438,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -487,7 +487,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -500,7 +500,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>85</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -549,7 +549,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -562,7 +562,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -611,7 +611,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -624,7 +624,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -673,7 +673,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -686,7 +686,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -735,7 +735,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -748,7 +748,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -797,7 +797,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -810,7 +810,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -848,7 +848,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -886,7 +886,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -935,7 +935,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -948,7 +948,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -997,7 +997,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1010,7 +1010,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1048,7 +1048,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1086,7 +1086,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1124,7 +1124,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1162,7 +1162,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>86</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1211,7 +1211,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1224,7 +1224,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1273,7 +1273,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1286,7 +1286,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1335,7 +1335,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1348,7 +1348,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1386,7 +1386,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>87</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1435,7 +1435,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1448,7 +1448,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1486,7 +1486,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1524,7 +1524,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1573,7 +1573,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1586,7 +1586,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1624,7 +1624,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1662,7 +1662,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1711,7 +1711,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1724,7 +1724,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1762,7 +1762,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1811,7 +1811,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1824,7 +1824,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>87</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1873,7 +1873,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1886,7 +1886,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>87</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1935,7 +1935,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -1948,7 +1948,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -1997,7 +1997,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -2010,7 +2010,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>89</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2059,7 +2059,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -2072,7 +2072,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2121,7 +2121,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -2134,7 +2134,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2183,7 +2183,7 @@
           </wpml:actionTrigger>
           <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
-      </Placemark>
+      <wpml:waypointHeadingParam><wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode><wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle><wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint><wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode><wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex></wpml:waypointHeadingParam></Placemark>
       <Placemark>
         <Point>
           <coordinates>
@@ -2196,7 +2196,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2234,7 +2234,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2272,7 +2272,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2310,7 +2310,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2348,7 +2348,7 @@
         <wpml:waypointSpeed>5</wpml:waypointSpeed>
         <wpml:waypointHeadingParam>
           <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2384,8 +2384,8 @@
         <wpml:ellipsoidHeight>997.799987792969</wpml:ellipsoidHeight>
         <wpml:height>997.799987792969</wpml:height>
         <wpml:waypointHeadingParam>
-          <wpml:waypointHeadingMode>smoothTransition</wpml:waypointHeadingMode>
-          <wpml:waypointHeadingAngle>88</wpml:waypointHeadingAngle>
+          <wpml:waypointHeadingMode>fixed</wpml:waypointHeadingMode>
+          <wpml:waypointHeadingAngle>87.37</wpml:waypointHeadingAngle>
           <wpml:waypointPoiPoint>0.000000,0.000000,0.000000</wpml:waypointPoiPoint>
           <wpml:waypointHeadingPathMode>followBadArc</wpml:waypointHeadingPathMode>
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
@@ -2401,7 +2401,7 @@
           <wpml:actionTrigger>
             <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
           </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action><wpml:action><wpml:actionId>997</wpml:actionId><wpml:actionActuatorFunc>stopRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>2</wpml:stayTime><wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle><wpml:aircraftHeading>87.37</wpml:aircraftHeading></wpml:actionActuatorFuncParam></wpml:action><wpml:action><wpml:actionId>997</wpml:actionId><wpml:actionActuatorFunc>stopRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType><wpml:zoomFactor>5</wpml:zoomFactor></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <wpml:payloadParam>
