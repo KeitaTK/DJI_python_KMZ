@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:wpml="http://www.dji.com/wpmz/1.0.6">
   <Document>
-    <wpml:createTime>1752123059003</wpml:createTime>
-    <wpml:updateTime>1752126945952</wpml:updateTime>
+    <wpml:createTime>1752134031332</wpml:createTime>
+    <wpml:updateTime>1752136739282</wpml:updateTime>
     <wpml:missionConfig>
       <wpml:flyToWaylineMode>safely</wpml:flyToWaylineMode>
       <wpml:finishAction>goHome</wpml:finishAction>
@@ -28,10 +28,10 @@
         <wpml:heightMode>relativeToStartPoint</wpml:heightMode>
         <wpml:positioningType>GPS</wpml:positioningType>
       </wpml:waylineCoordinateSysParam>
-      <wpml:autoFlightSpeed>5</wpml:autoFlightSpeed>
+      <wpml:autoFlightSpeed>15</wpml:autoFlightSpeed>
       <wpml:globalHeight>100</wpml:globalHeight>
       <wpml:caliFlightEnable>0</wpml:caliFlightEnable>
-      <wpml:gimbalPitchMode>manual</wpml:gimbalPitchMode>
+      <wpml:gimbalPitchMode>usePointSetting</wpml:gimbalPitchMode>
       <wpml:globalWaypointHeadingParam>
         <wpml:waypointHeadingMode>followWayline</wpml:waypointHeadingMode>
         <wpml:waypointHeadingAngle>0</wpml:waypointHeadingAngle>
@@ -58,6 +58,7 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
           <wpml:actionGroupId>0</wpml:actionGroupId>
@@ -67,7 +68,7 @@
           <wpml:actionTrigger>
             <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
           </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>998</wpml:actionId><wpml:actionActuatorFunc>startRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType></wpml:actionActuatorFuncParam></wpml:action><wpml:action>
+          <wpml:action>
             <wpml:actionId>0</wpml:actionId>
             <wpml:actionActuatorFunc>rotateYaw</wpml:actionActuatorFunc>
             <wpml:actionActuatorFuncParam>
@@ -75,7 +76,23 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+          <wpml:action>
+            <wpml:actionId>0</wpml:actionId>
+            <wpml:actionActuatorFunc>gimbalRotate</wpml:actionActuatorFunc>
+            <wpml:actionActuatorFuncParam>
+              <wpml:gimbalRotateMode>absoluteAngle</wpml:gimbalRotateMode>
+              <wpml:gimbalPitchRotateEnable>1</wpml:gimbalPitchRotateEnable>
+              <wpml:gimbalPitchRotateAngle>-90</wpml:gimbalPitchRotateAngle>
+              <wpml:gimbalRollRotateEnable>0</wpml:gimbalRollRotateEnable>
+              <wpml:gimbalRollRotateAngle>0</wpml:gimbalRollRotateAngle>
+              <wpml:gimbalYawRotateEnable>0</wpml:gimbalYawRotateEnable>
+              <wpml:gimbalYawRotateAngle>0</wpml:gimbalYawRotateAngle>
+              <wpml:gimbalRotateTimeEnable>0</wpml:gimbalRotateTimeEnable>
+              <wpml:gimbalRotateTime>0</wpml:gimbalRotateTime>
+              <wpml:payloadPositionIndex>0</wpml:payloadPositionIndex>
+            </wpml:actionActuatorFuncParam>
+          </wpml:action>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -96,6 +113,7 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
           <wpml:actionGroupId>1</wpml:actionGroupId>
@@ -113,7 +131,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -134,6 +152,7 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
           <wpml:actionGroupId>2</wpml:actionGroupId>
@@ -151,7 +170,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -166,16 +185,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>3</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>3</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>3</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -196,9 +207,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>4</wpml:actionGroupId>
+          <wpml:actionGroupId>3</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>4</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>4</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -213,7 +225,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -228,16 +240,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>5</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>5</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>5</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -258,9 +262,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>6</wpml:actionGroupId>
+          <wpml:actionGroupId>4</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>6</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>6</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -275,7 +280,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -290,16 +295,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>7</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>7</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>7</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -320,9 +317,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>8</wpml:actionGroupId>
+          <wpml:actionGroupId>5</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>8</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>8</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -337,7 +335,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -352,16 +350,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>9</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>9</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>9</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -382,9 +372,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>10</wpml:actionGroupId>
+          <wpml:actionGroupId>6</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>10</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>10</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -399,7 +390,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -414,16 +405,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>11</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>11</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>11</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -444,9 +427,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>12</wpml:actionGroupId>
+          <wpml:actionGroupId>7</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>12</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>12</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -461,7 +445,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -476,16 +460,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>13</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>13</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>13</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -506,9 +482,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>14</wpml:actionGroupId>
+          <wpml:actionGroupId>8</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>14</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>14</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -523,7 +500,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -538,16 +515,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>15</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>15</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>15</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -568,9 +537,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>16</wpml:actionGroupId>
+          <wpml:actionGroupId>9</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>16</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>16</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -585,7 +555,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -600,16 +570,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>17</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>17</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>17</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -630,9 +592,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>18</wpml:actionGroupId>
+          <wpml:actionGroupId>10</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>18</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>18</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -647,7 +610,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -662,16 +625,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>19</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>19</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>19</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -692,9 +647,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>20</wpml:actionGroupId>
+          <wpml:actionGroupId>11</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>20</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>20</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -709,7 +665,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -724,16 +680,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>21</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>21</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>21</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -754,9 +702,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>22</wpml:actionGroupId>
+          <wpml:actionGroupId>12</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>22</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>22</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -771,7 +720,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -786,16 +735,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>23</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>23</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>23</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -816,9 +757,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>24</wpml:actionGroupId>
+          <wpml:actionGroupId>13</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>24</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>24</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -833,7 +775,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -854,9 +796,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>25</wpml:actionGroupId>
+          <wpml:actionGroupId>14</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>25</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>25</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -871,7 +814,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -892,9 +835,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>26</wpml:actionGroupId>
+          <wpml:actionGroupId>15</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>26</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>26</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -909,7 +853,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -924,16 +868,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>27</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>27</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>27</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -954,9 +890,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>28</wpml:actionGroupId>
+          <wpml:actionGroupId>16</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>28</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>28</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -971,7 +908,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -986,16 +923,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>29</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>29</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>29</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1016,9 +945,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>30</wpml:actionGroupId>
+          <wpml:actionGroupId>17</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>30</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>30</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1033,7 +963,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1054,9 +984,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>31</wpml:actionGroupId>
+          <wpml:actionGroupId>18</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>31</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>31</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1071,7 +1002,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1092,9 +1023,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>32</wpml:actionGroupId>
+          <wpml:actionGroupId>19</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>32</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>32</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1109,7 +1041,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1130,9 +1062,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>33</wpml:actionGroupId>
+          <wpml:actionGroupId>20</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>33</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>33</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1147,7 +1080,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1168,9 +1101,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>34</wpml:actionGroupId>
+          <wpml:actionGroupId>21</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>34</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>34</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1185,7 +1119,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1200,16 +1134,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>35</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>35</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>35</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1230,9 +1156,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>36</wpml:actionGroupId>
+          <wpml:actionGroupId>22</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>36</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>36</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1247,7 +1174,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1262,16 +1189,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>37</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>37</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>37</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1292,9 +1211,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>38</wpml:actionGroupId>
+          <wpml:actionGroupId>23</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>38</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>38</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1309,7 +1229,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1324,16 +1244,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>39</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>39</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>39</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1354,9 +1266,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>40</wpml:actionGroupId>
+          <wpml:actionGroupId>24</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>40</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>40</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1371,7 +1284,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1392,9 +1305,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>41</wpml:actionGroupId>
+          <wpml:actionGroupId>25</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>41</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>41</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1409,7 +1323,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1424,16 +1338,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>42</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>42</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>42</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1454,9 +1360,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>43</wpml:actionGroupId>
+          <wpml:actionGroupId>26</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>43</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>43</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1471,7 +1378,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1492,9 +1399,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>44</wpml:actionGroupId>
+          <wpml:actionGroupId>27</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>44</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>44</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1509,7 +1417,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1530,9 +1438,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>45</wpml:actionGroupId>
+          <wpml:actionGroupId>28</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>45</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>45</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1547,7 +1456,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1562,16 +1471,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>46</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>46</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>46</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1592,9 +1493,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>47</wpml:actionGroupId>
+          <wpml:actionGroupId>29</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>47</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>47</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1609,7 +1511,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1630,9 +1532,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>48</wpml:actionGroupId>
+          <wpml:actionGroupId>30</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>48</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>48</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1647,7 +1550,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1668,9 +1571,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>49</wpml:actionGroupId>
+          <wpml:actionGroupId>31</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>49</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>49</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1685,7 +1589,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1700,16 +1604,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>50</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>50</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>50</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1730,9 +1626,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>51</wpml:actionGroupId>
+          <wpml:actionGroupId>32</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>51</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>51</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1747,7 +1644,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1768,9 +1665,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>52</wpml:actionGroupId>
+          <wpml:actionGroupId>33</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>52</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>52</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1785,7 +1683,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1800,16 +1698,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>53</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>53</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>53</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1830,9 +1720,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>54</wpml:actionGroupId>
+          <wpml:actionGroupId>34</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>54</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>54</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1847,7 +1738,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1862,16 +1753,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>55</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>55</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>55</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1892,9 +1775,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>56</wpml:actionGroupId>
+          <wpml:actionGroupId>35</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>56</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>56</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1909,7 +1793,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1924,16 +1808,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>57</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>57</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>57</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1954,9 +1830,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>58</wpml:actionGroupId>
+          <wpml:actionGroupId>36</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>58</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>58</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -1971,7 +1848,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -1986,16 +1863,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>59</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>59</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>59</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2016,9 +1885,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>60</wpml:actionGroupId>
+          <wpml:actionGroupId>37</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>60</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>60</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2033,7 +1903,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2048,16 +1918,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>61</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>61</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>61</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2078,9 +1940,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>62</wpml:actionGroupId>
+          <wpml:actionGroupId>38</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>62</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>62</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2095,7 +1958,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2110,16 +1973,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>63</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>63</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>63</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2140,9 +1995,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>64</wpml:actionGroupId>
+          <wpml:actionGroupId>39</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>64</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>64</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2157,7 +2013,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2172,16 +2028,8 @@
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalHeadingParam>1</wpml:useGlobalHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>65</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>65</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>65</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2202,9 +2050,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>66</wpml:actionGroupId>
+          <wpml:actionGroupId>40</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>66</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>66</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2219,7 +2068,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2240,9 +2089,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>67</wpml:actionGroupId>
+          <wpml:actionGroupId>41</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>67</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>67</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2257,7 +2107,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2278,9 +2128,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>68</wpml:actionGroupId>
+          <wpml:actionGroupId>42</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>68</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>68</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2295,7 +2146,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2316,9 +2167,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>69</wpml:actionGroupId>
+          <wpml:actionGroupId>43</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>69</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>69</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2333,7 +2185,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2354,9 +2206,10 @@
           <wpml:waypointHeadingPoiIndex>0</wpml:waypointHeadingPoiIndex>
         </wpml:waypointHeadingParam>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
         <wpml:actionGroup>
-          <wpml:actionGroupId>70</wpml:actionGroupId>
+          <wpml:actionGroupId>44</wpml:actionGroupId>
           <wpml:actionGroupStartIndex>70</wpml:actionGroupStartIndex>
           <wpml:actionGroupEndIndex>70</wpml:actionGroupEndIndex>
           <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
@@ -2371,7 +2224,7 @@
               <wpml:aircraftPathMode>counterClockwise</wpml:aircraftPathMode>
             </wpml:actionActuatorFuncParam>
           </wpml:action>
-        <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
+        </wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <Placemark>
@@ -2392,16 +2245,8 @@
         </wpml:waypointHeadingParam>
         <wpml:useGlobalSpeed>1</wpml:useGlobalSpeed>
         <wpml:useGlobalTurnParam>1</wpml:useGlobalTurnParam>
+        <wpml:gimbalPitchAngle>0</wpml:gimbalPitchAngle>
         <wpml:useStraightLine>0</wpml:useStraightLine>
-        <wpml:actionGroup>
-          <wpml:actionGroupId>71</wpml:actionGroupId>
-          <wpml:actionGroupStartIndex>71</wpml:actionGroupStartIndex>
-          <wpml:actionGroupEndIndex>71</wpml:actionGroupEndIndex>
-          <wpml:actionGroupMode>sequence</wpml:actionGroupMode>
-          <wpml:actionTrigger>
-            <wpml:actionTriggerType>reachPoint</wpml:actionTriggerType>
-          </wpml:actionTrigger>
-          <wpml:action><wpml:actionId>999</wpml:actionId><wpml:actionActuatorFunc>stayForSeconds</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:stayTime>10.0</wpml:stayTime></wpml:actionActuatorFuncParam></wpml:action><wpml:action><wpml:actionId>997</wpml:actionId><wpml:actionActuatorFunc>stopRecordVideo</wpml:actionActuatorFunc><wpml:actionActuatorFuncParam><wpml:payloadPositionIndex>0</wpml:payloadPositionIndex><wpml:videoType>zoom</wpml:videoType></wpml:actionActuatorFuncParam></wpml:action></wpml:actionGroup>
         <wpml:isRisky>0</wpml:isRisky>
       </Placemark>
       <wpml:payloadParam>
