@@ -1,13 +1,14 @@
 from lxml import etree
 
-# --- 設定パラメータ ---
-BASE_HEIGHT = 613.5
-NEW_HEIGHT_MODE = 'als'
-HOVER_SECONDS = 2
-GIMBAL_PITCH = -90
-YAW_ANGLE = 87.37
-VIDEO_TYPE = 'zoom'
-PAYLOAD_POSITION_INDEX = '0'
+# --- 設定パラメータ（必要に応じて編集） ---
+BASE_HEIGHT = 613.5            # 高度変換時の基準高さ[m]
+NEW_HEIGHT_MODE = 'als'        # 高度基準（'als': 絶対高度基準）
+HOVER_SECONDS = 2              # 各WPでのホバリング秒数
+GIMBAL_PITCH = -90             # ジンバルピッチ角度[°]（真下）
+YAW_ANGLE = 87.37              # 機体ヨー角度[°]（常時固定・移動中も）
+VIDEO_TYPE = 'zoom'            # 動画種別（ズームカメラ）
+ZOOM_FACTOR = 5                # ズーム倍率（5倍で撮影）
+PAYLOAD_POSITION_INDEX = '0'   # ペイロード位置インデックス
 
 # 入出力ファイルパス
 INPUT_KML = r"C:\Users\keita\Documents\local\M30_GPS\1Q_RL\wpmz\template.kml"
@@ -37,7 +38,26 @@ def convert_kml(input_kml, output_kml):
                             h_elem.text = str(old_height + BASE_HEIGHT)
                         except Exception:
                             pass
-    # 既にalsなら高度変換もスキップ
+
+    # ヘディング（ヨー角）を全WPで固定
+    for placemark in root.findall('.//kml:Placemark', ns):
+        # ヘディングパラメータを必ず固定角・指定値に
+        heading_param = placemark.find('wpml:waypointHeadingParam', ns)
+        if heading_param is not None:
+            mode_elem = heading_param.find('wpml:waypointHeadingMode', ns)
+            angle_elem = heading_param.find('wpml:waypointHeadingAngle', ns)
+            if mode_elem is not None:
+                mode_elem.text = 'fixed'
+            if angle_elem is not None:
+                angle_elem.text = str(YAW_ANGLE)
+        else:
+            # なければ新規作成
+            heading_param = etree.SubElement(placemark, '{http://www.dji.com/wpmz/1.0.6}waypointHeadingParam')
+            etree.SubElement(heading_param, '{http://www.dji.com/wpmz/1.0.6}waypointHeadingMode').text = 'fixed'
+            etree.SubElement(heading_param, '{http://www.dji.com/wpmz/1.0.6}waypointHeadingAngle').text = str(YAW_ANGLE)
+            etree.SubElement(heading_param, '{http://www.dji.com/wpmz/1.0.6}waypointPoiPoint').text = '0.000000,0.000000,0.000000'
+            etree.SubElement(heading_param, '{http://www.dji.com/wpmz/1.0.6}waypointHeadingPathMode').text = 'followBadArc'
+            etree.SubElement(heading_param, '{http://www.dji.com/wpmz/1.0.6}waypointHeadingPoiIndex').text = '0'
 
     placemarks = root.findall('.//kml:Placemark', ns)
     for i, placemark in enumerate(placemarks):
@@ -75,6 +95,7 @@ def convert_kml(input_kml, output_kml):
             param = etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
             etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
             etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = VIDEO_TYPE
+            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)  # ズーム倍率（5倍）
             new_actions.insert(0, video_start)
 
         # ホバリング追加（各ポイント共通、既にstayForSecondsがなければ追加）
@@ -104,6 +125,7 @@ def convert_kml(input_kml, output_kml):
             param = etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
             etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
             etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = VIDEO_TYPE
+            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)  # ズーム倍率（5倍）
             new_actions.append(video_stop)
 
         # 古いアクションを削除して新しいものに置換
