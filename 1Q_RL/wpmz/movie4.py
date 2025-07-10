@@ -2,13 +2,18 @@ from lxml import etree
 
 # --- 設定パラメータ（用途コメント付き） ---
 BASE_HEIGHT = 613.5            # 高度変換時の基準高さ[m]
-NEW_HEIGHT_MODE = 'als'        # 高度基準（'als': 絶対高度基準）
-AUTO_FLIGHT_SPEED = 15         # 自動飛行速度[m/s]
+NEW_HEIGHT_MODE = 'als'        # 高度基準（'als':絶対高度基準, 'relativeToStartPoint'等）
+AUTO_FLIGHT_SPEED = 15         # グローバル自動飛行速度[m/s]
+TAKEOFF_SECURITY_HEIGHT = 20   # 安全離陸高度[m]
+TURN_MODE = 'toPointAndStopWithDiscontinuityCurvature'  # 旋回モード
 HOVER_SECONDS = 2              # 各WPでのホバリング秒数
 GIMBAL_PITCH = -90             # ジンバルピッチ角度[°]（真下）
 YAW_ANGLE = 87.37              # 機体ヨー角度[°]（常時固定）
-VIDEO_TYPE = 'zoom'            # 動画種別（ズームカメラ）
-ZOOM_FACTOR = 5                # ズーム倍率（5倍で撮影）
+VIDEO_TYPE = 'zoom'            # 動画種別（'zoom', 'wide', 'ir'）
+ZOOM_FACTOR = 5                # ズーム倍率（zoom時のみ有効）
+ENABLE_ZOOM = 1                # ズームカメラを使うか（0:使わない, 1:使う）
+ENABLE_WIDE = 0                # ワイドカメラを使うか（0:使わない, 1:使う）
+ENABLE_IR = 0                  # IRカメラを使うか（0:使わない, 1:使う）
 PAYLOAD_POSITION_INDEX = '0'   # ペイロード位置インデックス
 
 # 入出力ファイルパス
@@ -50,8 +55,17 @@ def convert_kml(input_kml, output_kml):
         if speed_elem is not None:
             speed_elem.text = str(AUTO_FLIGHT_SPEED)
 
+    # 安全離陸高度
+    takeoff_height_elem = root.find('.//wpml:takeOffSecurityHeight', ns)
+    if takeoff_height_elem is not None:
+        takeoff_height_elem.text = str(TAKEOFF_SECURITY_HEIGHT)
+
+    # 旋回モード
+    turn_mode_elem = folder.find('wpml:globalWaypointTurnMode', ns)
+    if turn_mode_elem is not None:
+        turn_mode_elem.text = TURN_MODE
+
     # ヘディングモード: followWayline かつ常に87.37°
-    # グローバル
     global_heading = folder.find('wpml:globalWaypointHeadingParam', ns)
     if global_heading is not None:
         mode_elem = global_heading.find('wpml:waypointHeadingMode', ns)
@@ -60,7 +74,6 @@ def convert_kml(input_kml, output_kml):
             mode_elem.text = 'followWayline'
         if angle_elem is not None:
             angle_elem.text = str(YAW_ANGLE)
-    # 各WP
     for placemark in root.findall('.//kml:Placemark', ns):
         heading_param = placemark.find('wpml:waypointHeadingParam', ns)
         if heading_param is not None:
@@ -101,22 +114,35 @@ def convert_kml(input_kml, output_kml):
                 continue  # 削除
             new_actions.append(action)
 
-        # 動画開始（最初のみ、既にstartRecordVideoがなければ追加）
-        if i == 0 and not any(
-            a.find('wpml:actionActuatorFunc', ns) is not None and
-            a.find('wpml:actionActuatorFunc', ns).text == 'startRecordVideo'
-            for a in new_actions
-        ):
-            video_start = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
-            etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '998'
-            etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'startRecordVideo'
-            param = etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = VIDEO_TYPE
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)
-            new_actions.insert(0, video_start)
+        # 動画開始（最初のみ、各カメラ種別ごとに追加）
+        if i == 0:
+            if ENABLE_ZOOM:
+                video_start = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '998'
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'startRecordVideo'
+                param = etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'zoom'
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)
+                new_actions.append(video_start)
+            if ENABLE_WIDE:
+                video_start = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '9981'
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'startRecordVideo'
+                param = etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'wide'
+                new_actions.append(video_start)
+            if ENABLE_IR:
+                video_start = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '9982'
+                etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'startRecordVideo'
+                param = etree.SubElement(video_start, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'ir'
+                new_actions.append(video_start)
 
-        # ジンバルを動かしてからホバリング（順序を明確に）
+        # ジンバルを動かしてからホバリング
         gimbal_action = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
         etree.SubElement(gimbal_action, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '1001'
         etree.SubElement(gimbal_action, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'gimbalRotate'
@@ -133,35 +159,43 @@ def convert_kml(input_kml, output_kml):
         etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
         new_actions.append(gimbal_action)
 
-        # ホバリング追加（各ポイント共通、既にstayForSecondsがなければ追加）
-        if not any(
-            a.find('wpml:actionActuatorFunc', ns) is not None and
-            a.find('wpml:actionActuatorFunc', ns).text == 'stayForSeconds'
-            for a in new_actions
-        ):
-            hover_action = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
-            etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '999'
-            etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stayForSeconds'
-            param = etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}stayTime').text = str(HOVER_SECONDS)
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}gimbalPitchRotateAngle').text = str(GIMBAL_PITCH)
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}aircraftHeading').text = str(YAW_ANGLE)
-            new_actions.append(hover_action)
+        # ホバリング追加（各ポイント共通）
+        hover_action = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+        etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '999'
+        etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stayForSeconds'
+        param = etree.SubElement(hover_action, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+        etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}stayTime').text = str(HOVER_SECONDS)
+        etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}gimbalPitchRotateAngle').text = str(GIMBAL_PITCH)
+        etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}aircraftHeading').text = str(YAW_ANGLE)
+        new_actions.append(hover_action)
 
-        # 動画停止（最後のみ、既にstopRecordVideoがなければ追加）
-        if i == len(placemarks) - 1 and not any(
-            a.find('wpml:actionActuatorFunc', ns) is not None and
-            a.find('wpml:actionActuatorFunc', ns).text == 'stopRecordVideo'
-            for a in new_actions
-        ):
-            video_stop = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
-            etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '997'
-            etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stopRecordVideo'
-            param = etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = VIDEO_TYPE
-            etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)
-            new_actions.append(video_stop)
+        # 動画停止（最後のみ、各カメラ種別ごとに追加）
+        if i == len(placemarks) - 1:
+            if ENABLE_ZOOM:
+                video_stop = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '997'
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stopRecordVideo'
+                param = etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'zoom'
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}zoomFactor').text = str(ZOOM_FACTOR)
+                new_actions.append(video_stop)
+            if ENABLE_WIDE:
+                video_stop = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '9971'
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stopRecordVideo'
+                param = etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'wide'
+                new_actions.append(video_stop)
+            if ENABLE_IR:
+                video_stop = etree.Element('{http://www.dji.com/wpmz/1.0.6}action')
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionId').text = '9972'
+                etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFunc').text = 'stopRecordVideo'
+                param = etree.SubElement(video_stop, '{http://www.dji.com/wpmz/1.0.6}actionActuatorFuncParam')
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}payloadPositionIndex').text = PAYLOAD_POSITION_INDEX
+                etree.SubElement(param, '{http://www.dji.com/wpmz/1.0.6}videoType').text = 'ir'
+                new_actions.append(video_stop)
 
         # 古いアクションを削除して新しいものに置換
         for old_action in actions:
