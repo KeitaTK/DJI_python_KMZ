@@ -20,7 +20,7 @@ def convert_and_extract_kmz(kmz_path):
         return False, "拡張子が .kmz ではありません"
 
     base_dir = os.path.dirname(kmz_path)
-    output_dir = os.path.join(base_dir, "解凍フォルダ")
+    output_dir = os.path.join(base_dir, "Converted")
     zip_path = os.path.splitext(kmz_path)[0] + ".zip"
 
     try:
@@ -44,14 +44,14 @@ def find_template_kml(base_dir):
 
 def edit_kml_file(kml_path):
     """
-    例として <name> タグを「変換済み」に書き換えて上書き保存。
+    例として <name> タグを「Converted」に書き換えて上書き保存。
     """
     try:
         tree = ET.parse(kml_path)
         root = tree.getroot()
         ns = {"kml": "http://www.opengis.net/kml/2.2"}
         for name_elem in root.findall(".//kml:name", ns):
-            name_elem.text = "変換済み"
+            name_elem.text = "Converted"
         tree.write(kml_path, encoding="utf-8", xml_declaration=True)
         return True, f"編集・上書き成功: {kml_path}"
     except Exception as e:
@@ -67,7 +67,7 @@ def process_kmz_and_edit_kml(kmz_path):
     if not success:
         return False, msg
 
-    output_dir = os.path.join(os.path.dirname(kmz_path), "解凍フォルダ")
+    output_dir = os.path.join(os.path.dirname(kmz_path), "Converted")
     kml_files = find_template_kml(output_dir)
     if not kml_files:
         return False, "template.kml が見つかりませんでした。"
