@@ -8,7 +8,7 @@ from tkinter import messagebox
 from tkinterdnd2 import TkinterDnD, DND_FILES
 
 # 展開先フォルダ
-OUTPUT_DIR = r"C:\Users\KT\Documents\local\M30_GPS\解凍フォルダ"
+OUTPUT_DIR = r"C:\Users\taki\Desktop\kaitouaaa"
 LABEL_FONT = ("Meiryo", 12)
 
 def convert_and_extract_kmz(kmz_path):
