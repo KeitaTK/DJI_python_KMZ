@@ -64,21 +64,31 @@ def prepare_output_dirs(input_kmz: str, offset: float):
     os.makedirs(wpmz_dir)
     return base_out, wpmz_dir
 
-def repackage_to_kmz(base_out: str, input_kmz: str) -> str:
-    inp_dir = os.path.dirname(input_kmz)
-    name = os.path.splitext(os.path.basename(input_kmz))[0] + "_Converted.kmz"
-    out_kmz = os.path.join(inp_dir, name)
-    tmp = out_kmz + ".zip"
-    with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zf:
-        for root, _, files in os.walk(base_out):
+def repackage_to_kmz(out_root: str, input_kmz: str) -> str:
+    """
+    中間出力ディレクトリ out_root と同じ場所に
+    最終 KMZ ファイルを作成して返します。
+    """
+    # ベース名と出力先パスを生成
+    base_name = os.path.splitext(os.path.basename(input_kmz))[0] + "_Converted.kmz"
+    out_kmz = os.path.join(out_root, base_name)
+    tmp_zip = out_kmz + ".zip"
+
+    # ZIP ファイルを作成
+    with zipfile.ZipFile(tmp_zip, "w", zipfile.ZIP_DEFLATED) as zf:
+        for root, _, files in os.walk(out_root):
             for f in files:
-                full = os.path.join(root, f)
-                rel = os.path.relpath(full, base_out)
-                zf.write(full, rel)
+                full_path = os.path.join(root, f)
+                rel_path = os.path.relpath(full_path, out_root)
+                zf.write(full_path, rel_path)
+
+    # 既存の KMZ を削除してリネーム
     if os.path.exists(out_kmz):
         os.remove(out_kmz)
-    os.rename(tmp, out_kmz)
+    os.rename(tmp_zip, out_kmz)
+
     return out_kmz
+
 
 def convert_heights_and_mode(tree: etree._ElementTree,
                              offset: float,
