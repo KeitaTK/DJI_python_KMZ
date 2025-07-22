@@ -9,6 +9,8 @@ convert_height_gui_asl.py (ver. GUI24)
 ・GUIタイトルを ver. GUI24 に更新
 ・stopRecord に正しい actionId 採番
 ・do_gimbal フラグを反映してジンバル操作をオプション化
+・ヨー固定の「固定なし」オプションを削除
+・ホバリング機能を追加
 """
 
 import os
@@ -34,7 +36,7 @@ HEIGHT_OPTIONS = {
 }
 
 YAW_OPTIONS = {
-    "1Q: 87.37°":  87.37,
+    "1Q: 88.00°":  88.00,
     "2Q: 96.92°":  96.92,
     "4Q: 87.31°":  87.31,
     "手動入力":    "custom"
@@ -82,7 +84,7 @@ def repackage_to_kmz(out_root, input_kmz):
 
 # --- KML 変換 ---------------------------------------------------------------
 def convert_kml(tree, offset, do_photo, do_video, video_suffix,
-                do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes):
+                do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes, hover_time):
 
     def _max_id(root, xp):
         ids = [int(e.text) for e in root.findall(xp, NS)
@@ -149,7 +151,7 @@ def convert_kml(tree, offset, do_photo, do_video, video_suffix,
             f = act.find("wpml:actionActuatorFunc", NS)
             if f is not None and f.text in (
                 "orientedShoot", "startRecord", "stopRecord",
-                "gimbalRotate", "selectWide", "selectZoom", "selectIR"
+                "gimbalRotate", "selectWide", "selectZoom", "selectIR", "hover"
             ):
                 ag.remove(act)
     pp = tree.find(".//wpml:payloadParam", NS)
@@ -240,13 +242,47 @@ def convert_kml(tree, offset, do_photo, do_video, video_suffix,
             if m is not None: m.text = "fixed"
             if a is not None: a.text = str(yaw_angle)
 
-    # 6) 空の actionGroup 削除
+    # 6) ホバリング追加
+    if hover_time > 0:
+        pms = [
+            p for p in tree.findall(".//kml:Placemark", NS)
+            if p.find("wpml:index", NS) is not None
+        ]
+        
+        for pm in pms:
+            idx = pm.find("wpml:index", NS).text
+            
+            # 既存のactionGroupを取得または作成
+            ag = pm.find("wpml:actionGroup", NS)
+            if ag is None:
+                # actionGroupが存在しない場合は新規作成
+                ag = etree.SubElement(pm, f"{{{NS['wpml']}}}actionGroup")
+                etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupId").text = str(idx)
+                etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupStartIndex").text = str(idx)
+                etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupEndIndex").text = str(idx)
+                etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupMode").text = "sequence"
+                trg = etree.SubElement(ag, f"{{{NS['wpml']}}}actionTrigger")
+                etree.SubElement(trg, f"{{{NS['wpml']}}}actionTriggerType").text = "reachPoint"
+            
+            # 次のactionIdを取得
+            next_id = _max_id(ag, ".//wpml:actionId") + 1
+            if next_id < 0:  # 既存のactionがない場合
+                next_id = 0
+            
+            # ホバリングアクションを追加
+            hover_action = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
+            etree.SubElement(hover_action, f"{{{NS['wpml']}}}actionId").text = str(next_id)
+            etree.SubElement(hover_action, f"{{{NS['wpml']}}}actionActuatorFunc").text = "hover"
+            hover_param = etree.SubElement(hover_action, f"{{{NS['wpml']}}}actionActuatorFuncParam")
+            etree.SubElement(hover_param, f"{{{NS['wpml']}}}hoverTime").text = str(int(hover_time))
+
+    # 7) 空の actionGroup 削除
     for ag in tree.findall(".//wpml:actionGroup", NS):
         if not ag.findall("wpml:action", NS):
             ag.getparent().remove(ag)
 
 def process_kmz(path, offset, do_photo, do_video, video_suffix,
-                do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes, log):
+                do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes, hover_time, log):
     try:
         log.insert(tk.END, f"Extracting {os.path.basename(path)}...\n")
         wd = extract_kmz(path)
@@ -259,7 +295,7 @@ def process_kmz(path, offset, do_photo, do_video, video_suffix,
             parser = etree.XMLParser(remove_blank_text=True)
             tree = etree.parse(kml, parser)
             convert_kml(tree, offset, do_photo, do_video, video_suffix,
-                        do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes)
+                        do_gimbal, yaw_fix, yaw_angle, speed, sensor_modes, hover_time)
             out_path = os.path.join(outdir, os.path.basename(kml))
             tree.write(out_path, encoding="utf-8",
                        pretty_print=True, xml_declaration=True)
@@ -288,6 +324,8 @@ def process_kmz(path, offset, do_photo, do_video, video_suffix,
 class AppGUI(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
+        
+        # 基準高度設定
         ttk.Label(self, text="基準高度:").grid(row=0, column=0, sticky="w")
         self.hc = ttk.Combobox(self, values=list(HEIGHT_OPTIONS), state="readonly", width=20)
         self.hc.set(next(iter(HEIGHT_OPTIONS)))
@@ -296,10 +334,12 @@ class AppGUI(ttk.Frame):
         self.he = ttk.Entry(self, width=10, state="disabled")
         self.he.grid(row=0, column=3, padx=5)
 
+        # 速度設定
         ttk.Label(self, text="速度 (1–15 m/s):").grid(row=1, column=0, sticky="w", pady=5)
         self.sp = tk.IntVar(value=15)
         ttk.Spinbox(self, from_=1, to=15, textvariable=self.sp, width=5).grid(row=1, column=1, columnspan=2, sticky="w")
 
+        # 撮影設定
         self.ph = tk.BooleanVar(value=False)
         ttk.Checkbutton(self, text="写真撮影", variable=self.ph, command=self.update_ctrl).grid(row=2, column=0, sticky="w")
         self.vd = tk.BooleanVar(value=False)
@@ -308,23 +348,35 @@ class AppGUI(ttk.Frame):
         self.vd_suffix_var   = tk.StringVar(value="video_01")
         self.vd_suffix_entry = ttk.Entry(self, textvariable=self.vd_suffix_var, width=20)
 
+        # センサー選択
         ttk.Label(self, text="センサー選択:").grid(row=3, column=0, sticky="w")
         self.sm_vars = {m: tk.BooleanVar(value=False) for m in SENSOR_MODES}
         for i, m in enumerate(SENSOR_MODES):
             ttk.Checkbutton(self, text=m, variable=self.sm_vars[m]).grid(row=3, column=1+i, sticky="w")
 
+        # ジンバル制御
         self.gm = tk.BooleanVar(value=True)
         self.gc = ttk.Checkbutton(self, text="ジンバル制御", variable=self.gm)
         self.gc.grid(row=4, column=0, sticky="w", pady=5)
 
+        # ヨー固定設定
         self.yf = tk.BooleanVar(value=False)
         ttk.Checkbutton(self, text="ヨー固定", variable=self.yf, command=self.update_yaw).grid(row=5, column=0, sticky="w")
         self.yc = ttk.Combobox(self, values=list(YAW_OPTIONS), state="readonly", width=15)
         self.yc.bind("<<ComboboxSelected>>", self.update_yaw)
         self.ye = ttk.Entry(self, width=8, state="disabled")
 
+        # ホバリング設定
+        self.hv = tk.BooleanVar(value=False)
+        ttk.Checkbutton(self, text="ホバリング", variable=self.hv, command=self.update_hover).grid(row=6, column=0, sticky="w", pady=5)
+        self.hover_time_label = ttk.Label(self, text="ホバリング時間 (秒):")
+        self.hover_time_var = tk.StringVar(value="2")
+        self.hover_time_entry = ttk.Entry(self, textvariable=self.hover_time_var, width=8)
+
+        # 初期状態設定
         self.update_ctrl()
         self.update_yaw()
+        self.update_hover()
 
     def on_height_change(self, event=None):
         if HEIGHT_OPTIONS.get(self.hc.get()) == "custom":
@@ -367,6 +419,15 @@ class AppGUI(ttk.Frame):
             self.yc.grid_forget()
             self.ye.grid_forget()
 
+    def update_hover(self):
+        """ホバリング設定の表示/非表示を制御"""
+        if self.hv.get():
+            self.hover_time_label.grid(row=6, column=1, sticky="e", padx=(10,2))
+            self.hover_time_entry.grid(row=6, column=2, sticky="w")
+        else:
+            self.hover_time_label.grid_forget()
+            self.hover_time_entry.grid_forget()
+
     def get_params(self):
         offset = 0.0
         v = HEIGHT_OPTIONS.get(self.hc.get())
@@ -389,6 +450,14 @@ class AppGUI(ttk.Frame):
             else:
                 yaw_angle = float(yval)
 
+        # ホバリング時間の取得
+        hover_time = 0
+        if self.hv.get():
+            try:
+                hover_time = max(0, float(self.hover_time_var.get()))
+            except:
+                hover_time = 2.0  # デフォルト値
+
         return {
             "offset":       offset,
             "do_photo":     self.ph.get(),
@@ -398,13 +467,14 @@ class AppGUI(ttk.Frame):
             "yaw_fix":      self.yf.get(),
             "yaw_angle":    yaw_angle,
             "speed":        max(1, min(15, self.sp.get())),
-            "sensor_modes": [m for m, var in self.sm_vars.items() if var.get()]
+            "sensor_modes": [m for m, var in self.sm_vars.items() if var.get()],
+            "hover_time":   hover_time
         }
 
 def main():
     root = TkinterDnD.Tk()
     root.title("ATL→ASL 変換＋撮影制御ツール (ver. GUI24)")
-    root.geometry("750x650")
+    root.geometry("750x700")
     frm = ttk.Frame(root, padding=10)
     frm.pack(fill="both", expand=True)
 
