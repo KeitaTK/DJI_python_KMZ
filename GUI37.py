@@ -121,21 +121,34 @@ def convert_kml(tree, params):
     video_suffix = params.get("video_suffix", "")
     do_gimbal = params.get("do_gimbal", True)
     sensor_modes = params.get("sensor_modes", [])
-    dev_lng, dev_lat, dev_alt = params.get("coordinate_deviation", (0,0,0))
+    deviation = params.get("coordinate_deviation")
 
     # Placemarkごとに座標補正
     for pm in tree.findall(".//kml:Placemark", NS):
         coords_elem = pm.find(".//kml:coordinates", NS)
-        if coords_elem is not None and coords_elem.text:
-            parts = coords_elem.text.strip().split(',')
-            if len(parts) >= 3:
-                try:
-                    lng = float(parts[0]) + dev_lng
-                    lat = float(parts[1]) + dev_lat
-                    alt = float(parts[2]) + offset
-                    coords_elem.text = f"{lng},{lat},{alt}"
-                except ValueError:
-                    pass
+        if coords_elem is None or not coords_elem.text:
+            continue
+
+        parts = coords_elem.text.strip().split(",")
+        try:
+            lng = float(parts[0])
+            lat = float(parts[1])
+            alt = float(parts[2])
+        except (ValueError, IndexError):
+            continue
+
+        # 1) 偏差補正 (チェック有効時のみ)
+        if deviation is not None:
+            dev_lng, dev_lat, dev_alt = deviation
+            lng += dev_lng
+            lat += dev_lat
+            alt += dev_alt
+
+        # 2) ASLオフセット補正（常に適用）
+        alt += offset
+
+        coords_elem.text = f"{lng},{lat},{alt}"
+
 
         # ExtendedDataなどにヨー角や撮影設定を埋め込む
         ed = pm.find(".//kml:ExtendedData", NS)
@@ -195,7 +208,6 @@ def process_kmz(path, log, params):
 
 
 # --- UIクラス (View) --------------------------------------------------
-
 class AppUI(ttk.Frame):
     def __init__(self, master, controller):
         super().__init__(master, padding=10)
@@ -207,6 +219,7 @@ class AppUI(ttk.Frame):
     def _create_vars(self):
         self.height_choice_var = tk.StringVar()
         self.height_entry_var = tk.StringVar()
+        self.asl_var = tk.BooleanVar(value=False)  # ASL変換チェックボックス用
         self.speed_var = tk.IntVar(value=15)
         self.photo_var = tk.BooleanVar(value=False)
         self.video_var = tk.BooleanVar(value=False)
@@ -225,14 +238,22 @@ class AppUI(ttk.Frame):
         self.today_alt_var = tk.StringVar(value="0")
 
     def _create_widgets(self):
-        # 高度選択
+        # ASL変換チェック
+        self.asl_check = ttk.Checkbutton(
+            self,
+            text="ATL→ASL変換",
+            variable=self.asl_var,
+            command=self.controller.update_ui_states
+        )
+        
+        # 基準高度関連ウィジェット（初期は非表示）
         self.height_label = ttk.Label(self, text="基準高度:")
         self.height_combo = ttk.Combobox(
             self, textvariable=self.height_choice_var,
             values=list(HEIGHT_OPTIONS.keys()), state="readonly", width=20
         )
         self.height_combo.bind("<<ComboboxSelected>>", self.controller.update_ui_states)
-        self.height_entry = ttk.Entry(self, textvariable=self.height_entry_var, width=10, state="disabled")
+        self.height_entry = ttk.Entry(self, textvariable=self.height_entry_var, width=10)
 
         # 速度
         self.speed_label = ttk.Label(self, text="速度 (1–15 m/s):")
@@ -282,28 +303,39 @@ class AppUI(ttk.Frame):
         self.copy_button = ttk.Button(self, text="コピー", command=self.controller.copy_reference_data, width=8)
 
     def _grid_widgets(self):
-        # 配置
-        self.height_label.grid(row=0, column=0, sticky="w")
-        self.height_combo.grid(row=0, column=1, padx=5, columnspan=2, sticky="w")
-        self.height_entry.grid(row=0, column=3, padx=5)
+        # ASLチェックボックス（常に表示）
+        self.asl_check.grid(row=0, column=0, sticky="w", pady=5)
+        
+        # 基準高度関連ウィジェットは最初は非表示（update_ui_statesで制御）
+        # self.height_label, self.height_combo, self.height_entryは動的に表示/非表示
 
+        # 速度
         self.speed_label.grid(row=1, column=0, sticky="w", pady=5)
         self.speed_spinbox.grid(row=1, column=1, columnspan=2, sticky="w")
 
+        # 撮影設定
         self.photo_check.grid(row=2, column=0, sticky="w")
         self.video_check.grid(row=2, column=1, sticky="w")
 
+        # センサー
         self.sensor_label.grid(row=3, column=0, sticky="w")
         for i, m in enumerate(SENSOR_MODES):
             self.sensor_checks[m].grid(row=3, column=1+i, sticky="w")
 
+        # ジンバル
         self.gimbal_check.grid(row=4, column=0, sticky="w", pady=5)
+        
+        # ヨー固定
         self.yaw_fix_check.grid(row=5, column=0, sticky="w")
+        
+        # ホバリング
         self.hover_check.grid(row=6, column=0, sticky="w", pady=5)
+        
+        # 偏差補正
         self.deviation_check.grid(row=7, column=0, sticky="w", pady=5)
 
+        # 基準高度のデフォルト値を設定
         self.height_combo.set(next(iter(HEIGHT_OPTIONS.keys())))
-
 
 # --- アプリケーション制御クラス (Controller) -------------------------
 
@@ -347,20 +379,34 @@ class KmlConverterApp:
 
     def update_ui_states(self, event=None):
         ui = self.ui
-        # 高度手動入力
-        if HEIGHT_OPTIONS.get(ui.height_choice_var.get()) == "custom":
-            ui.height_entry.config(state="normal")
+        
+        # ASL変換チェックの状態による基準高度ウィジェットの表示制御
+        if ui.asl_var.get():
+            # ASL変換がONの場合、基準高度関連を表示
+            ui.height_label.grid(row=0, column=2, sticky="w")
+            ui.height_combo.grid(row=0, column=3, padx=5, columnspan=2, sticky="w")
+            
+            # 手動入力が選択されている場合のみエントリを表示
+            if HEIGHT_OPTIONS.get(ui.height_choice_var.get()) == "custom":
+                ui.height_entry.config(state="normal")
+                ui.height_entry.grid(row=0, column=6, padx=5)
+            else:
+                ui.height_entry.config(state="disabled")
+                ui.height_entry.grid_forget()
         else:
-            ui.height_entry.config(state="disabled")
+            # ASL変換がOFFの場合、基準高度関連を非表示
+            ui.height_label.grid_forget()
+            ui.height_combo.grid_forget()
+            ui.height_entry.grid_forget()
 
-        # 撮影モードの排他制御
+        # 写真/動画の排他制御
         if ui.photo_var.get():
             ui.video_var.set(False)
         if ui.video_var.get():
             ui.photo_var.set(False)
-
-        # ジンバル制御
-        ui.gimbal_check.config(state="disabled" if (ui.photo_var.get() or ui.video_var.get()) else "normal")
+        
+        # ジンバル制御の有効/無効
+        ui.gimbal_check.config(state="disabled" if ui.photo_var.get() or ui.video_var.get() else "normal")
         if ui.photo_var.get() or ui.video_var.get():
             ui.gimbal_var.set(True)
 
@@ -428,15 +474,21 @@ class KmlConverterApp:
         ui = self.ui
         p = {}
 
-        # オフセット
-        v = HEIGHT_OPTIONS.get(ui.height_choice_var.get())
-        if v == "custom":
-            try:
-                p["offset"] = float(ui.height_entry_var.get())
-            except ValueError:
-                raise ValueError("基準高度（手動入力）には数値を入力してください。")
+        # ASL変換が有効な場合のみオフセットを取得
+        if ui.asl_var.get():
+            v = HEIGHT_OPTIONS.get(ui.height_choice_var.get())
+            if v == "custom":
+                try:
+                    p["offset"] = float(ui.height_entry_var.get())
+                except ValueError:
+                    raise ValueError("基準高度（手動入力）には数値を入力してください。")
+            else:
+                p["offset"] = float(v)
         else:
-            p["offset"] = float(v)
+            p["offset"] = 0.0  # ASL変換無効時はオフセット0
+
+        # ASL変換フラグ
+        p["do_asl"] = ui.asl_var.get()
 
         # ヨー角
         p["yaw_angle"] = None
