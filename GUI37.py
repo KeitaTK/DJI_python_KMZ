@@ -110,63 +110,104 @@ def check_deviation_safety(deviation):
     return True, None
 
 def convert_kml(tree, params):
-    """
-    KMLファイル内のPlacemark要素を補正し、座標・高度・ヨー角を適用する。
-    """
-    offset = params["offset"]
-    yaw_angle = params.get("yaw_angle")
-    hover_time = params.get("hover_time", 0)
-    do_photo = params.get("do_photo", False)
-    do_video = params.get("do_video", False)
-    video_suffix = params.get("video_suffix", "")
-    do_gimbal = params.get("do_gimbal", True)
-    sensor_modes = params.get("sensor_modes", [])
-    deviation = params.get("coordinate_deviation")
 
-    # Placemarkごとに座標補正
+    from lxml import etree
+
+    # 名前空間定義（モジュール先頭にも置くとよい）
+    NS = {
+        "kml":  "http://www.opengis.net/kml/2.2",
+        "wpml": "http://www.dji.com/wpmz/1.0.6"
+    }
+
+    # 1) 元ファイルの高度参照モード取得
+    hmode_elem = tree.find(
+        "./kml:Document/kml:Folder/wpml:waylineCoordinateSysParam/wpml:heightMode",
+        NS
+    )
+    height_mode = hmode_elem.text if hmode_elem is not None else None
+
+    # パラメータ取得
+    offset       = params.get("offset", 0.0)
+    deviation    = params.get("coordinate_deviation")    # Noneまたは(tdlng, dlat, dalt)
+    do_asl       = params.get("do_asl", False)
+    do_photo     = params.get("do_photo", False)
+    do_video     = params.get("do_video", False)
+    yaw_angle    = params.get("yaw_angle")
+    hover_time   = params.get("hover_time", 0)
+    sensor_modes = params.get("sensor_modes", [])
+    do_gimbal    = params.get("do_gimbal", True)
+
+    # 2) 各 Placemark をループして処理
     for pm in tree.findall(".//kml:Placemark", NS):
+        # 座標取得
         coords_elem = pm.find(".//kml:coordinates", NS)
         if coords_elem is None or not coords_elem.text:
             continue
-
-        parts = coords_elem.text.strip().split(",")
         try:
-            lng = float(parts[0])
-            lat = float(parts[1])
-            alt = float(parts[2])
+            lng, lat, alt = map(float, coords_elem.text.strip().split(","))
         except (ValueError, IndexError):
             continue
 
-        # 1) 偏差補正 (チェック有効時のみ)
+        # a) 偏差補正 (チェック有効時のみ)
         if deviation is not None:
-            dev_lng, dev_lat, dev_alt = deviation
-            lng += dev_lng
-            lat += dev_lat
-            alt += dev_alt
+            dlng, dlat, dalt = deviation
+            lng += dlng
+            lat += dlat
+            alt += dalt
 
-        # 2) ASLオフセット補正（常に適用）
-        alt += offset
+        # b) ASLオフセット補正：チェックONかつ元ATLモード時のみ
+        if do_asl and height_mode == "relativeToStartPoint":
+            alt += offset
 
+        # 座標を更新
         coords_elem.text = f"{lng},{lat},{alt}"
 
+        # c) WPMLのheight / ellipsoidHeight要素を更新
+        for tag in ("height", "ellipsoidHeight"):
+            el = pm.find(f"wpml:{tag}", NS)
+            if el is not None:
+                el.text = f"{alt}"
 
-        # ExtendedDataなどにヨー角や撮影設定を埋め込む
+        # d) ExtendedData に撮影／制御設定を埋め込む
         ed = pm.find(".//kml:ExtendedData", NS)
         if ed is None:
-            ed = etree.SubElement(pm, "{%s}ExtendedData" % NS["kml"])
+            ed = etree.SubElement(pm, "{http://www.opengis.net/kml/2.2}ExtendedData")
+
         # 撮影モード
         mode = "photo" if do_photo else "video" if do_video else ""
-        etree.SubElement(ed, "{%s}Data" % NS["kml"], name="mode").text = mode
+        etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="mode").text = mode
+
         # ヨー角
         if yaw_angle is not None:
-            etree.SubElement(ed, "{%s}Data" % NS["kml"], name="yaw").text = f"{yaw_angle}"
+            etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="yaw").text = str(yaw_angle)
+
         # ホバリング時間
         if hover_time > 0:
-            etree.SubElement(ed, "{%s}Data" % NS["kml"], name="hover_time").text = f"{hover_time}"
-        # センサー
-        etree.SubElement(ed, "{%s}Data" % NS["kml"], name="sensors").text = ",".join(sensor_modes)
+            etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="hover_time").text = str(hover_time)
+
+        # センサー設定
+        if sensor_modes:
+            etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="sensors").text = ",".join(sensor_modes)
+
         # ジンバル制御フラグ
-        etree.SubElement(ed, "{%s}Data" % NS["kml"], name="gimbal").text = str(do_gimbal)
+        etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="gimbal").text = str(do_gimbal)
+
+    # 3) globalHeight 要素を更新
+    gh = tree.find(".//wpml:globalHeight", NS)
+    if gh is not None:
+        base = float(gh.text or 0)
+        new = base
+        if do_asl and height_mode == "relativeToStartPoint":
+            new += offset
+        if deviation is not None:
+            new += deviation[2]
+        gh.text = str(new)
+
+    # 4) heightMode を EGM96 に切り替え（ASL変換時のみ）
+    if do_asl and height_mode == "relativeToStartPoint":
+        for hm in tree.findall(".//wpml:heightMode", NS):
+            hm.text = "EGM96"
+
 
 def process_kmz(path, log, params):
     try:
