@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
+
 """
-convert_height_gui_asl.py (ver. GUI37_complete)
-前回のリファクタリングに基づき、省略されていた部分を補完した完全版。
-- AppUI: Viewを担当。ウィジェットの作成と配置のみ。
-- KmlConverterApp: Controllerを担当。UIイベントの処理とビジネスロジックの呼び出し。
-- 処理関数群: Modelを担当。具体的なKMZ処理。
-- main: アプリケーションの起動。
+convert_height_gui_asl.py (ver. GUI37_complete_modified)
+KMLファイルの高度変換を正しく行うための修正版。
+- coordinatesが2値の場合を扱い、高度をwpml:heightから取得して変換。
+- ASL変換と偏差補正を適用後、coordinatesを3値形式に更新。
 """
 
 import os
@@ -17,7 +17,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext, filedialog
 from tkinterdnd2 import TkinterDnD, DND_FILES
 from lxml import etree
-import math
 from datetime import datetime
 import pyperclip
 
@@ -26,6 +25,7 @@ NS = {
     "kml": "http://www.opengis.net/kml/2.2",
     "wpml": "http://www.dji.com/wpmz/1.0.6"
 }
+
 HEIGHT_OPTIONS = {
     "613.5 – 事務所前": 613.5,
     "962.02 – 烏帽子": 962.02,
@@ -52,9 +52,7 @@ DEVIATION_THRESHOLD = {
     "alt": 20.0
 }
 
-
 # --- バックグラウンド処理関数群 (Model) ------------------------------
-
 def extract_kmz(path, work_dir="_kmz_work"):
     if os.path.exists(work_dir):
         shutil.rmtree(work_dir)
@@ -109,30 +107,38 @@ def check_deviation_safety(deviation):
     return True, None
 
 def convert_kml(tree, params):
-
     # パラメータ取得
-    offset       = params.get("offset", 0.0)
-    deviation    = params.get("coordinate_deviation")    # Noneまたは(tdlng, dlat, dalt)
-    do_asl       = params.get("do_asl", False)
-    do_photo     = params.get("do_photo", False)
-    do_video     = params.get("do_video", False)
-    yaw_angle    = params.get("yaw_angle")
-    hover_time   = params.get("hover_time", 0)
+    offset = params.get("offset", 0.0)
+    deviation = params.get("coordinate_deviation")  # Noneまたは(dlng, dlat, dalt)
+    do_asl = params.get("do_asl", False)
+    do_photo = params.get("do_photo", False)
+    do_video = params.get("do_video", False)
+    yaw_angle = params.get("yaw_angle")
+    hover_time = params.get("hover_time", 0)
     sensor_modes = params.get("sensor_modes", [])
-    do_gimbal    = params.get("do_gimbal", True)
+    do_gimbal = params.get("do_gimbal", True)
 
-    hmode_elem = tree.find("./kml:Document/kml:Folder/wpml:waylineCoordinateSysParam/wpml:heightMode",NS)
+    hmode_elem = tree.find("./kml:Document/kml:Folder/wpml:waylineCoordinateSysParam/wpml:heightMode", NS)
     height_mode = hmode_elem.text if hmode_elem is not None else None
 
-
-    # 2) 各 Placemark をループして処理
+    # 各 Placemark をループして処理
     for pm in tree.findall(".//kml:Placemark", NS):
         # 座標取得
         coords_elem = pm.find(".//kml:coordinates", NS)
         if coords_elem is None or not coords_elem.text:
             continue
+
+        coords_text = coords_elem.text.strip().split(",")
         try:
-            lng, lat, alt = map(float, coords_elem.text.strip().split(","))
+            if len(coords_text) == 2:
+                # 高度が欠落している場合、wpml:heightから取得
+                height_el = pm.find("wpml:height", NS)
+                alt = float(height_el.text) if height_el is not None else 0.0
+                lng, lat = map(float, coords_text)
+            elif len(coords_text) == 3:
+                lng, lat, alt = map(float, coords_text)
+            else:
+                continue
         except (ValueError, IndexError):
             continue
 
@@ -147,7 +153,7 @@ def convert_kml(tree, params):
         if do_asl and height_mode == "relativeToStartPoint":
             alt += offset
 
-        # 座標を更新
+        # 座標を更新（3値形式に統一）
         coords_elem.text = f"{lng},{lat},{alt}"
 
         # c) WPMLのheight / ellipsoidHeight要素を更新
@@ -156,31 +162,65 @@ def convert_kml(tree, params):
             if el is not None:
                 el.text = f"{alt}"
 
+
         # d) ExtendedData に撮影／制御設定を埋め込む
         ed = pm.find(".//kml:ExtendedData", NS)
         if ed is None:
             ed = etree.SubElement(pm, "{http://www.opengis.net/kml/2.2}ExtendedData")
 
-        # 撮影モード
-        mode = "photo" if do_photo else "video" if do_video else ""
-        etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="mode").text = mode
+        # 重複チェック関数（新規追加）
+        def has_data(ed, name):
+            return ed.find(f".//kml:Data[@name='{name}']", NS) is not None
 
-        # ヨー角
+        # 撮影モードの計算
+        mode = "photo" if do_photo else "video" if do_video else ""
+        if not mode:  # チェックボックスがオフの場合
+            existing_mode = ed.find(f".//kml:Data[@name='mode']", NS)
+            if existing_mode is not None:
+                ed.remove(existing_mode)  # 既存のmodeを削除してクリーン状態に
+        else:  # チェックオン時: 上書きまたは新規追加
+            existing_mode = ed.find(f".//kml:Data[@name='mode']", NS)
+            if existing_mode is not None:
+                existing_mode.text = mode  # 上書き
+            else:
+                etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="mode").text = mode
+
+        # ヨー角（変更なし）
         if yaw_angle is not None:
             etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="yaw").text = str(yaw_angle)
 
-        # ホバリング時間
+        # ホバリング時間（変更なし）
         if hover_time > 0:
             etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="hover_time").text = str(hover_time)
 
-        # センサー設定
-        if sensor_modes:
-            etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="sensors").text = ",".join(sensor_modes)
+        # センサー設定（変更なし）
+        sensors_text = ",".join(sensor_modes) if sensor_modes else ""
+        if not sensor_modes:  # オフ時削除
+            existing = ed.find(f".//kml:Data[@name='sensors']", NS)
+            if existing is not None:
+                ed.remove(existing)
+        else:
+            existing = ed.find(f".//kml:Data[@name='sensors']", NS)
+            if existing is not None:
+                existing.text = sensors_text  # 上書き
+            else:
+                etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="sensors").text = sensors_text
 
-        # ジンバル制御フラグ
+        # gimbalの処理（常に上書き、削除なしでシンプルに）
+        gimbal_text = str(do_gimbal)
+        existing = ed.find(f".//kml:Data[@name='gimbal']", NS)
+        if existing is not None:
+            existing.text = gimbal_text  # 上書き
+        else:
+            etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="gimbal").text = gimbal_text
+
+
+        # ジンバル制御フラグ（変更なし）
         etree.SubElement(ed, "{http://www.opengis.net/kml/2.2}Data", name="gimbal").text = str(do_gimbal)
 
-    # 3) globalHeight 要素を更新
+
+
+    # globalHeight 要素を更新
     gh = tree.find(".//wpml:globalHeight", NS)
     if gh is not None:
         base = float(gh.text or 0)
@@ -191,11 +231,10 @@ def convert_kml(tree, params):
             new += deviation[2]
         gh.text = str(new)
 
-    # 4) heightMode を EGM96 に切り替え（ASL変換時のみ）
+    # heightMode を EGM96 に切り替え（ASL変換時のみ）
     if do_asl and height_mode == "relativeToStartPoint":
         for hm in tree.findall(".//wpml:heightMode", NS):
             hm.text = "EGM96"
-
 
 def process_kmz(path, log, params):
     try:
@@ -205,17 +244,14 @@ def process_kmz(path, log, params):
         kml_path = os.path.join(work_dir, "wpmz", "template.kml")
         if not os.path.exists(kml_path):
             kml_path = os.path.join(work_dir, "template.kml")
-            if not os.path.exists(kml_path):
-                raise FileNotFoundError("template.kml が見つかりませんでした。")
+        if not os.path.exists(kml_path):
+            raise FileNotFoundError("template.kml が見つかりませんでした。")
 
         out_root, outdir = prepare_output_dirs(path, params["offset"])
         log.insert(tk.END, f"変換中: {os.path.basename(kml_path)}...\n")
-
         parser = etree.XMLParser(remove_blank_text=True)
         tree = etree.parse(kml_path, parser)
-
         convert_kml(tree, params)
-
         out_kml = os.path.join(outdir, os.path.basename(kml_path))
         tree.write(out_kml, encoding="utf-8", pretty_print=True, xml_declaration=True)
 
@@ -227,14 +263,12 @@ def process_kmz(path, log, params):
         out_kmz = repackage_to_kmz(out_root, path)
         log.insert(tk.END, f"変換完了: {out_kmz}\n\n")
         messagebox.showinfo("完了", f"変換が正常に完了しました:\n{out_kmz}")
-
     except Exception as e:
         log.insert(tk.END, f"エラー: {e}\n\n")
         messagebox.showerror("エラー", f"処理中にエラーが発生しました:\n{e}")
     finally:
         if os.path.exists("_kmz_work"):
             shutil.rmtree("_kmz_work")
-
 
 # --- UIクラス (View) --------------------------------------------------
 class AppUI(ttk.Frame):
@@ -274,7 +308,7 @@ class AppUI(ttk.Frame):
             variable=self.asl_var,
             command=self.controller.update_ui_states
         )
-        
+
         # 基準高度関連ウィジェット（初期は非表示）
         self.height_label = ttk.Label(self, text="基準高度:")
         self.height_combo = ttk.Combobox(
@@ -334,9 +368,6 @@ class AppUI(ttk.Frame):
     def _grid_widgets(self):
         # ASLチェックボックス（常に表示）
         self.asl_check.grid(row=0, column=0, sticky="w", pady=5)
-        
-        # 基準高度関連ウィジェットは最初は非表示（update_ui_statesで制御）
-        # self.height_label, self.height_combo, self.height_entryは動的に表示/非表示
 
         # 速度
         self.speed_label.grid(row=1, column=0, sticky="w", pady=5)
@@ -349,17 +380,17 @@ class AppUI(ttk.Frame):
         # センサー
         self.sensor_label.grid(row=3, column=0, sticky="w")
         for i, m in enumerate(SENSOR_MODES):
-            self.sensor_checks[m].grid(row=3, column=1+i, sticky="w")
+            self.sensor_checks[m].grid(row=3, column=1 + i, sticky="w")
 
         # ジンバル
         self.gimbal_check.grid(row=4, column=0, sticky="w", pady=5)
-        
+
         # ヨー固定
         self.yaw_fix_check.grid(row=5, column=0, sticky="w")
-        
+
         # ホバリング
         self.hover_check.grid(row=6, column=0, sticky="w", pady=5)
-        
+
         # 偏差補正
         self.deviation_check.grid(row=7, column=0, sticky="w", pady=5)
 
@@ -367,28 +398,23 @@ class AppUI(ttk.Frame):
         self.height_combo.set(next(iter(HEIGHT_OPTIONS.keys())))
 
 # --- アプリケーション制御クラス (Controller) -------------------------
-
 class KmlConverterApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ATL→ASL 変換＋撮影制御ツール (ver. GUI37_complete)")
+        self.root.title("ATL→ASL 変換＋撮影制御ツール (ver. GUI37_complete_modified)")
         self.root.geometry("800x750")
-
         self.ui = AppUI(self.root, self)
-        self.ui.pack(fill="x", pady=(0,10))
-
+        self.ui.pack(fill="x", pady=(0, 10))
         self._create_dnd_and_log_area()
         self.update_ui_states()
 
     def _create_dnd_and_log_area(self):
         frm = ttk.Frame(self.root, padding=10)
         frm.pack(fill="both", expand=True)
-
         self.drop_label = tk.Label(frm, text=".kmzをここにドロップ", bg="lightgray", width=70, height=5, relief=tk.RIDGE)
         self.drop_label.pack(pady=12, fill="x")
         self.drop_label.drop_target_register(DND_FILES)
         self.drop_label.dnd_bind("<<Drop>>", self.on_drop)
-
         log_frame = ttk.LabelFrame(frm, text="ログ")
         log_frame.pack(fill="both", expand=True)
         self.log_text = scrolledtext.ScrolledText(log_frame, height=16)
@@ -408,13 +434,11 @@ class KmlConverterApp:
 
     def update_ui_states(self, event=None):
         ui = self.ui
-        
         # ASL変換チェックの状態による基準高度ウィジェットの表示制御
         if ui.asl_var.get():
             # ASL変換がONの場合、基準高度関連を表示
             ui.height_label.grid(row=0, column=2, sticky="w")
             ui.height_combo.grid(row=0, column=3, padx=5, columnspan=2, sticky="w")
-            
             # 手動入力が選択されている場合のみエントリを表示
             if HEIGHT_OPTIONS.get(ui.height_choice_var.get()) == "custom":
                 ui.height_entry.config(state="normal")
@@ -433,7 +457,7 @@ class KmlConverterApp:
             ui.video_var.set(False)
         if ui.video_var.get():
             ui.photo_var.set(False)
-        
+
         # ジンバル制御の有効/無効
         ui.gimbal_check.config(state="disabled" if ui.photo_var.get() or ui.video_var.get() else "normal")
         if ui.photo_var.get() or ui.video_var.get():
@@ -441,7 +465,7 @@ class KmlConverterApp:
 
         # 動画サフィックス表示
         if ui.video_var.get():
-            ui.video_suffix_label.grid(row=2, column=2, sticky="e", padx=(10,2))
+            ui.video_suffix_label.grid(row=2, column=2, sticky="e", padx=(10, 2))
             ui.video_suffix_entry.grid(row=2, column=3, sticky="w")
         else:
             ui.video_suffix_label.grid_forget()
@@ -464,7 +488,7 @@ class KmlConverterApp:
 
         # ホバリング
         if ui.hover_var.get():
-            ui.hover_time_label.grid(row=6, column=1, sticky="e", padx=(10,2))
+            ui.hover_time_label.grid(row=6, column=1, sticky="e", padx=(10, 2))
             ui.hover_time_entry.grid(row=6, column=2, sticky="w")
         else:
             ui.hover_time_label.grid_forget()
@@ -472,7 +496,7 @@ class KmlConverterApp:
 
         # 偏差補正
         if ui.deviation_var.get():
-            ui.ref_point_label.grid(row=7, column=1, sticky="e", padx=(10,2))
+            ui.ref_point_label.grid(row=7, column=1, sticky="e", padx=(10, 2))
             ui.ref_point_combo.grid(row=7, column=2, sticky="w")
             ui.today_coords_label.grid(row=8, column=0, sticky="w", pady=5)
             ui.today_lng_entry.grid(row=8, column=1, padx=2, sticky="w")
@@ -502,7 +526,6 @@ class KmlConverterApp:
     def _get_params(self):
         ui = self.ui
         p = {}
-
         # ASL変換が有効な場合のみオフセットを取得
         if ui.asl_var.get():
             v = HEIGHT_OPTIONS.get(ui.height_choice_var.get())
@@ -562,15 +585,12 @@ class KmlConverterApp:
         p["do_video"] = ui.video_var.get()
         p["video_suffix"] = ui.video_suffix_var.get()
         p["do_gimbal"] = ui.gimbal_var.get()
-        p["yaw_fix"] = ui.yaw_fix_var.get()
         p["speed"] = max(1, min(15, ui.speed_var.get()))
-        p["sensor_modes"] = [m for m,var in ui.sensor_vars.items() if var.get()]
+        p["sensor_modes"] = [m for m, var in ui.sensor_vars.items() if var.get()]
 
         return p
 
-
 # --- メイン実行部分 ------------------------------------------------
-
 def main():
     """アプリケーションを初期化して実行する"""
     root = TkinterDnD.Tk()
