@@ -76,11 +76,6 @@ pyinstaller --onefile --windowed --collect-all tkinterdnd2 GUI57.py
 pyinstaller --onefile --windowed --icon=app.ico --collect-all tkinterdnd2 GUI57.py
 ```
 
-### **tkinterdnd2-universalを使用する場合**
-```powershell
-pyinstaller --onefile --windowed --icon=app.ico --collect-all tkinterdnd2-universal GUI57.py
-```
-
 ## **オプション説明**
 - `--onefile`: 単一の実行ファイルを作成
 - `--windowed`: コンソールウィンドウを非表示（GUI用）

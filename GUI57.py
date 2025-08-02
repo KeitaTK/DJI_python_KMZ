@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-convert_height_gui_asl.py (ver. GUI59)
+convert_height_gui_asl.py (ver. GUI57)
 
 修正点
 • 写真撮影時にもホバリングを有効化（撮影とジンバルコントロールの間に挿入）
@@ -827,7 +827,7 @@ class AppGUI(ttk.Frame):
 # --- エントリポイント -------------------------------------------------------
 def main():
     root = TkinterDnD.Tk()
-    root.title("ATL→ASL 変換＋撮影制御ツール (ver. GUI59)")
+    root.title("ATL→ASL 変換＋撮影制御ツール (ver. GUI57)")
     root.geometry("800x850")
     frm = ttk.Frame(root, padding=10)
     frm.pack(fill="both", expand=True)
