@@ -619,25 +619,6 @@ def convert_kml(tree,
             etree.SubElement(sp, f"{{{NS['wpml']}}}fileSuffix").text = video_suffix
             etree.SubElement(sp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
         
-        # 写真撮影
-        if do_photo and not do_video:
-            # 先にホバリング
-            if hover_time > 0:
-                hv = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
-                etree.SubElement(hv, f"{{{NS['wpml']}}}actionId").text = "0"
-                etree.SubElement(hv, f"{{{NS['wpml']}}}actionActuatorFunc").text = "hover"
-                hp = etree.SubElement(hv, f"{{{NS['wpml']}}}actionActuatorFuncParam")
-                etree.SubElement(hp, f"{{{NS['wpml']}}}hoverTime").text = str(int(hover_time))
-            
-            # その後に写真撮影
-            ph = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
-            etree.SubElement(ph, f"{{{NS['wpml']}}}actionId").text = "0"
-            etree.SubElement(ph, f"{{{NS['wpml']}}}actionActuatorFunc").text = "takePhoto"
-            pp_act = etree.SubElement(ph, f"{{{NS['wpml']}}}actionActuatorFuncParam")
-            etree.SubElement(pp_act, f"{{{NS['wpml']}}}fileSuffix").text = f"ウェイポイント{idx}"
-            etree.SubElement(pp_act, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
-            etree.SubElement(pp_act, f"{{{NS['wpml']}}}useGlobalPayloadLensIndex").text = "1"
-        
         # ヨー固定
         if yaw_fix:
             yt = None
@@ -709,6 +690,25 @@ def convert_kml(tree,
                 zp = etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFuncParam")
                 etree.SubElement(zp, f"{{{NS['wpml']}}}focalLength").text = str(ft)
                 etree.SubElement(zp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
+
+        # 写真撮影
+        if do_photo and not do_video:
+            # 先にホバリング
+            if hover_time > 0:
+                hv = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
+                etree.SubElement(hv, f"{{{NS['wpml']}}}actionId").text = "0"
+                etree.SubElement(hv, f"{{{NS['wpml']}}}actionActuatorFunc").text = "hover"
+                hp = etree.SubElement(hv, f"{{{NS['wpml']}}}actionActuatorFuncParam")
+                etree.SubElement(hp, f"{{{NS['wpml']}}}hoverTime").text = str(int(hover_time))
+            
+            # その後に写真撮影
+            ph = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
+            etree.SubElement(ph, f"{{{NS['wpml']}}}actionId").text = "0"
+            etree.SubElement(ph, f"{{{NS['wpml']}}}actionActuatorFunc").text = "takePhoto"
+            pp_act = etree.SubElement(ph, f"{{{NS['wpml']}}}actionActuatorFuncParam")
+            etree.SubElement(pp_act, f"{{{NS['wpml']}}}fileSuffix").text = f"ウェイポイント{idx}"
+            etree.SubElement(pp_act, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
+            etree.SubElement(pp_act, f"{{{NS['wpml']}}}useGlobalPayloadLensIndex").text = "1"
         
         # 動画モードホバリング（制御後）
         if do_video and hover_time > 0:
