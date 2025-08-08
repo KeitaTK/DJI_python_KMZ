@@ -49,7 +49,7 @@ YAW_OPTIONS = {
 
 GIMBAL_PITCH_OPTIONS = {
     "真下: -90°": -90.0,
-    "真ん前: 0°": 0.0,
+    "前: 0°": 0.0,
     "元の角度維持": "original",
     "手動入力": "custom"
 }
@@ -57,14 +57,14 @@ GIMBAL_PITCH_OPTIONS = {
 ZOOM_RATIO_OPTIONS = {
     "5倍": 5.0,
     "10倍": 10.0,
-    "元を維持": "original",
+    "元の設定を維持": "original",
     "手動入力": "custom"
 }
 
 # 機体ヘディング制御の選択肢
 HEADING_MODE_OPTIONS = {
-    "撮影方向に合わせる": "follow_gimbal",
-    "飛行経路に従う": "follow_wayline",
+    "撮影方向を向いたまま移動する": "follow_gimbal",
+    "飛行中前を向く": "follow_wayline",
     "元の設定を維持": "original"
 }
 
@@ -149,9 +149,6 @@ def extract_original_gimbal_angles(tree):
 
     return original
 
-
-
-
 def extract_original_heading_settings(tree):
     """元のヘディング設定を取得"""
     heading_settings = {}
@@ -233,7 +230,6 @@ def zoom_ratio_to_focal_length(ratio):
     return ratio * 24.0
 
 # --- KMZ ユーティリティ -----------------------------------------------------
-
 def extract_kmz(path, work_dir="_kmz_work"):
     if os.path.exists(work_dir):
         shutil.rmtree(work_dir)
@@ -888,7 +884,7 @@ class AppGUI(ttk.Frame):
         self.vd_suffix_entry = ttk.Entry(self, textvariable=self.vd_suffix_var, width=20)
 
         # --- センサー選択 ---
-        ttk.Label(self, text="センサー選択:").grid(row=3, column=0, sticky="w")
+        ttk.Label(self, text="カメラ選択:").grid(row=3, column=0, sticky="w")
         self.sm_vars = {m: tk.BooleanVar(value=False) for m in SENSOR_MODES}
         for i, m in enumerate(SENSOR_MODES):
             ttk.Checkbutton(self, text=m, variable=self.sm_vars[m]).grid(row=3, column=1 + i, sticky="w")
@@ -903,7 +899,7 @@ class AppGUI(ttk.Frame):
 
         # --- ジンバルピッチ ---
         self.gp_var = tk.BooleanVar(value=False)
-        self.gp_cb = ttk.Checkbutton(self, text="ジンバルピッチ", variable=self.gp_var, command=self.update_gimbal_pitch)
+        self.gp_cb = ttk.Checkbutton(self, text="ジンバルピッチ角", variable=self.gp_var, command=self.update_gimbal_pitch)
         self.gp_cb.grid(row=5, column=0, sticky="w", pady=5)
         self.gp_mode = ttk.Combobox(self, values=list(GIMBAL_PITCH_OPTIONS), state="readonly", width=15)
         self.gp_mode.bind("<<ComboboxSelected>>", self.update_gimbal_pitch)
@@ -913,7 +909,7 @@ class AppGUI(ttk.Frame):
 
         # --- ヨー固定 ---
         self.yf = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self, text="ヨー固定", variable=self.yf, command=self.update_yaw).grid(row=6, column=0, sticky="w")
+        ttk.Checkbutton(self, text="機体ヨー角", variable=self.yf, command=self.update_yaw).grid(row=6, column=0, sticky="w")
         self.yc = ttk.Combobox(self, values=list(YAW_OPTIONS), state="readonly", width=15)
         self.yc.bind("<<ComboboxSelected>>", self.update_yaw)
         # デフォルトを「元の角度維持」に設定
@@ -921,7 +917,7 @@ class AppGUI(ttk.Frame):
         self.ye = ttk.Entry(self, width=8, state="disabled")
 
         # --- 機体ヘディング制御 ---
-        ttk.Label(self, text="機体ヘディング制御:").grid(row=7, column=0, sticky="w", pady=5)
+        ttk.Label(self, text="機体ヘディング角:").grid(row=7, column=0, sticky="w", pady=5)
         # デフォルトを「撮影方向に合わせる」に設定
         self.heading_mode_var = tk.StringVar(value="撮影方向に合わせる")
         heading_frame = ttk.Frame(self)
@@ -1133,7 +1129,7 @@ class AppGUI(ttk.Frame):
 
 def main():
     root = TkinterDnD.Tk()
-    root.title("ASL 変換＋撮影制御ツール (機体ヘディング制御機能付き)")
+    root.title("ASL 変換＋撮影制御ツール")
     root.geometry("800x900")
     
     frm = ttk.Frame(root, padding=10)
