@@ -946,14 +946,18 @@ class AppGUI(ttk.Frame):
         self.zm_entry = ttk.Entry(self, width=8, state="disabled")
 
 
-        # --- ジンバルピッチ ---
-        self.gp_var = tk.BooleanVar(value=False)
-        self.gp_cb = ttk.Checkbutton(self, text="ジンバルピッチ角", variable=self.gp_var, command=self.update_gimbal_pitch)
-        self.gp_cb.grid(row=5, column=0, sticky="w", pady=5)
-        self.gp_mode = ttk.Combobox(self, values=list(GIMBAL_PITCH_OPTIONS), state="readonly", width=15)
+        # --- ジンバルピッチ角 (撮影モード時のみ表示) ---
+        ttk.Label(self, text="ジンバルピッチ角:").grid(row=5, column=0, sticky="w", pady=5)
+        self.gp_mode = ttk.Combobox(
+            self, values=list(GIMBAL_PITCH_OPTIONS),
+            state="disabled", width=15
+        )
         self.gp_mode.bind("<<ComboboxSelected>>", self.update_gimbal_pitch)
-        # デフォルトを「元の角度維持」に設定
         self.gp_mode.set("元の角度維持")
+        self.gp_mode.grid(
+            row=5, column=1, padx=5, columnspan=2,
+            sticky="w", pady=5
+        )
         self.gp_entry = ttk.Entry(self, width=8, state="disabled")
 
         # --- ヨー固定 ---
@@ -1014,18 +1018,28 @@ class AppGUI(ttk.Frame):
     
     def update_capture_mode(self):
         mode = self.capture_mode_var.get()
-        # チェックボタンの有効／無効を切り替え
+
+        # カメラ選択チェックボタンの有効／無効を切り替え
         for child in self.camera_frame.winfo_children():
             if isinstance(child, ttk.Checkbutton):
                 if mode in ("photo", "video"):
                     child.state(["!disabled"])
                 else:
                     child.state(["disabled"])
+
         # ラベル付きフレームのタイトルを変更
         title = "カメラ選択"
         if mode not in ("photo", "video"):
             title += "（使用不可）"
         self.camera_frame.configure(text=title)
+
+        # ジンバルピッチプルダウンの有効／無効切り替え
+        if mode in ("photo", "video"):
+            self.gp_mode.config(state="readonly")
+        else:
+            self.gp_mode.config(state="disabled")
+            self.gp_mode.set("元の角度維持")
+            self.gp_entry.config(state="disabled")
     
     def update_zoom(self, event=None):
         choice = self.zm_mode.get()
@@ -1040,19 +1054,13 @@ class AppGUI(ttk.Frame):
 
     
     def update_gimbal_pitch(self, event=None):
-        if self.gp_var.get():
-            self.gp_mode.grid(row=5, column=1, padx=5, columnspan=2, sticky="w")
-            if not self.gp_mode.get():
-                self.gp_mode.set(next(iter(GIMBAL_PITCH_OPTIONS)))
-            
-            if self.gp_mode.get() == "手動入力":
-                self.gp_entry.config(state="normal")
-                self.gp_entry.grid(row=5, column=3)
-            else:
-                self.gp_entry.config(state="disabled")
-                self.gp_entry.grid_forget()
+        choice = self.gp_mode.get()
+        # 手動入力時のみエントリ表示
+        if choice == "手動入力" and self.gp_mode.cget("state") == "readonly":
+            self.gp_entry.config(state="normal")
+            self.gp_entry.grid(row=5, column=3)
         else:
-            self.gp_mode.grid_forget()
+            self.gp_entry.config(state="disabled")
             self.gp_entry.grid_forget()
     
     def update_yaw(self, event=None):
@@ -1108,15 +1116,14 @@ class AppGUI(ttk.Frame):
                 yaw_mode = "fixed"
                 yaw_angle = float(yval)
 
-        # ジンバルピッチ設定
-        do_gimbal = self.gp_var.get()
-        gimbal_pitch_angle = None
-        gimbal_pitch_mode = "none"
-        if do_gimbal:
-            gp_val = GIMBAL_PITCH_OPTIONS[self.gp_mode.get()]
-            if gp_val == "original":
+        # --- ジンバルピッチ設定 ---
+        capture_mode = self.capture_mode_var.get()
+        if capture_mode in ("photo", "video"):
+            val = GIMBAL_PITCH_OPTIONS[self.gp_mode.get()]
+            if val == "original":
                 gimbal_pitch_mode = "original"
-            elif gp_val == "custom":
+                gimbal_pitch_angle = None
+            elif val == "custom":
                 gimbal_pitch_mode = "fixed"
                 try:
                     gimbal_pitch_angle = float(self.gp_entry.get())
@@ -1124,7 +1131,14 @@ class AppGUI(ttk.Frame):
                     gimbal_pitch_angle = None
             else:
                 gimbal_pitch_mode = "fixed"
-                gimbal_pitch_angle = float(gp_val)
+                gimbal_pitch_angle = float(val)
+        else:
+            # 撮影なしではジンバル操作なし
+            gimbal_pitch_mode = "none"
+            gimbal_pitch_angle = None
+
+        # do_gimbal フラグを gimbal_pitch_mode に合わせて定義
+        do_gimbal = (gimbal_pitch_mode != "none")
 
         # ズーム設定（プルダウンのみ）
         zoom_choice = self.zm_mode.get()
@@ -1152,7 +1166,7 @@ class AppGUI(ttk.Frame):
         # 機体ヘディング制御モード取得
         heading_mode = HEADING_MODE_OPTIONS[self.heading_mode_var.get()]
 
-        mode = self.capture_mode_var.get()
+        mode = capture_mode
 
         return {
             "do_photo": (mode == "photo"),
@@ -1171,6 +1185,7 @@ class AppGUI(ttk.Frame):
             "heading_mode": heading_mode,
             "wp_stop_mode": self.stop_mode_var.get()
         }
+
 
 
 # --- エントリポイント -------------------------------------------------------
