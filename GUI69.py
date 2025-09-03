@@ -489,12 +489,21 @@ def apply_heading_settings(tree, heading_mode, original_heading_settings, origin
     log.see(tk.END)
 
 def convert_kml(tree,
-                do_photo, do_video, video_suffix,
+                do_photo, do_video,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                 yaw_fix, yaw_angle, yaw_mode, speed,
                 sensor_modes, hover_time,
                 do_zoom, zoom_ratio, zoom_mode,
-                original_angles, heading_mode, original_heading_settings, log):
+                original_angles, heading_mode, original_heading_settings, log, wp_stop_mode):
+
+    # 1) グローバル WP 停止モード設定
+    gw_turn = tree.find(".//wpml:globalWaypointTurnMode", NS)
+    if gw_turn is not None:
+        if wp_stop_mode == "stop":
+            gw_turn.text = "toPointAndStopWithDiscontinuityCurvature"
+        else:
+            gw_turn.text = "coordinateTurn"
+        log.insert(tk.END, f"globalWaypointTurnMode → {gw_turn.text}\n")
     
     # グローバル高度モード確認
     global_height_mode_elem = tree.find(".//wpml:waylineCoordinateSysParam/wpml:heightMode", NS)
@@ -635,7 +644,6 @@ def convert_kml(tree,
             etree.SubElement(sr, f"{{{NS['wpml']}}}actionId").text = "0"
             etree.SubElement(sr, f"{{{NS['wpml']}}}actionActuatorFunc").text = "startRecord"
             sp = etree.SubElement(sr, f"{{{NS['wpml']}}}actionActuatorFuncParam")
-            etree.SubElement(sp, f"{{{NS['wpml']}}}fileSuffix").text = video_suffix
             etree.SubElement(sp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
         
         # ヨー固定
@@ -747,12 +755,12 @@ def convert_kml(tree,
 
 # --- KMZ 一括処理 -----------------------------------------------------------
 def process_kmz(path,
-                do_photo, do_video, video_suffix,
+                do_photo, do_video,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                 yaw_fix, yaw_angle, yaw_mode,
                 speed, sensor_modes, hover_time,
                 do_zoom, zoom_ratio, zoom_mode,
-                heading_mode, log):
+                heading_mode, wp_stop_mode, log):
 
     try:
         log.insert(tk.END, f"=== 処理開始: {os.path.basename(path)} ===\n")
@@ -846,12 +854,12 @@ def process_kmz(path,
             log.insert(tk.END, "\n高度補正なし処理開始\n")
 
             convert_kml(tree,
-                        do_photo, do_video, video_suffix,
+                        do_photo, do_video,
                         do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                         yaw_fix, yaw_angle, yaw_mode, speed,
                         sensor_modes, hover_time,
                         do_zoom, zoom_ratio, zoom_mode,
-                        original_angles, heading_mode, original_heading_settings, log)
+                        original_angles, heading_mode, original_heading_settings, log, wp_stop_mode)
 
             log.insert(tk.END, "高度補正なし処理完了\n\n")
 
@@ -914,10 +922,6 @@ class AppGUI(ttk.Frame):
                 value=val,
                 command=self.update_capture_mode
             ).grid(row=2, column=i, sticky="w", padx=5)
-        # 動画ファイル名入力
-        self.vd_suffix_label = ttk.Label(self, text="動画ファイル名:")
-        self.vd_suffix_var = tk.StringVar(value="video_01")
-        self.vd_suffix_entry = ttk.Entry(self, textvariable=self.vd_suffix_var, width=20)
 
 
         # --- センサー選択 ---
@@ -967,9 +971,18 @@ class AppGUI(ttk.Frame):
                 value=text
             ).grid(row=0, column=i, sticky="w", padx=5)
 
+
+        # --- ウェイポイント停止モード選択 ---
+        ttk.Label(self, text="WP到達時動作:").grid(row=8, column=0, sticky="w", pady=5)
+        self.stop_mode_var = tk.StringVar(value="stop")  # 初期値：停止
+        rb_stop = ttk.Radiobutton(self, text="停止する", variable=self.stop_mode_var, value="stop")
+        rb_cont = ttk.Radiobutton(self, text="停止しない", variable=self.stop_mode_var, value="continuous")
+        rb_stop.grid(row=8, column=1, sticky="w")
+        rb_cont.grid(row=8, column=2, sticky="w")
+
         # --- ホバリング ---
         self.hv = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self, text="ホバリング", variable=self.hv, command=self.update_hover).grid(row=8, column=0, sticky="w", pady=5)
+        ttk.Checkbutton(self, text="ホバリング", variable=self.hv, command=self.update_hover).grid(row=9, column=0, sticky="w", pady=5)
         self.hover_time_label = ttk.Label(self, text="ホバリング時間 (秒):")
         self.hover_time_var = tk.StringVar(value="2")
         self.hover_time_entry = ttk.Entry(self, textvariable=self.hover_time_var, width=8)
@@ -993,13 +1006,6 @@ class AppGUI(ttk.Frame):
     
     def update_capture_mode(self):
         mode = self.capture_mode_var.get()
-        # 動画ファイル名入力の表示制御
-        if mode == "video":
-            self.vd_suffix_label.grid(row=2, column=3, sticky="e", padx=(10, 2))
-            self.vd_suffix_entry.grid(row=2, column=4, sticky="w")
-        else:
-            self.vd_suffix_label.grid_forget()
-            self.vd_suffix_entry.grid_forget()
     
     def update_zoom(self, event=None):
         if self.zm_var.get():
@@ -1054,8 +1060,8 @@ class AppGUI(ttk.Frame):
     
     def update_hover(self):
         if self.hv.get():
-            self.hover_time_label.grid(row=8, column=1, sticky="e", padx=(10, 2))
-            self.hover_time_entry.grid(row=8, column=2, sticky="w")
+            self.hover_time_label.grid(row=9, column=1, sticky="e", padx=(10, 2))
+            self.hover_time_entry.grid(row=9, column=2, sticky="w")
         else:
             self.hover_time_label.grid_forget()
             self.hover_time_entry.grid_forget()
@@ -1139,7 +1145,6 @@ class AppGUI(ttk.Frame):
         return {
             "do_photo": (mode == "photo"),
             "do_video": (mode == "video"),
-            "video_suffix": self.vd_suffix_var.get(),
             "do_gimbal": do_gimbal,
             "gimbal_pitch_angle": gimbal_pitch_angle,
             "gimbal_pitch_mode": gimbal_pitch_mode,
@@ -1152,7 +1157,8 @@ class AppGUI(ttk.Frame):
             "do_zoom": do_zoom,
             "zoom_ratio": zoom_ratio,
             "zoom_mode": zoom_mode,
-            "heading_mode": heading_mode
+            "heading_mode": heading_mode,
+            "wp_stop_mode": self.stop_mode_var.get()
         }
 
 # --- エントリポイント -------------------------------------------------------
