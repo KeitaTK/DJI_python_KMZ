@@ -928,7 +928,8 @@ class AppGUI(ttk.Frame):
             ttk.Checkbutton(
                 self.camera_frame,
                 text=m,
-                variable=self.sm_vars[m]
+                variable=self.sm_vars[m],
+                command=self.update_zoom
             ).grid(row=0, column=1 + i, sticky="w")
         # フレームを撮影モード選択の下に固定配置
         self.camera_frame.grid(row=3, column=0, columnspan=4, sticky="we", pady=5)
@@ -1040,19 +1041,46 @@ class AppGUI(ttk.Frame):
             self.gp_mode.config(state="disabled")
             self.gp_mode.set("元の角度維持")
             self.gp_entry.config(state="disabled")
+
+        # 撮影なし選択時にはZoomチェックと設定をリセット
+        if mode == "none":
+            # Zoomセンサー選択をOFFに
+            self.sm_vars["Zoom"].set(False)
+            # Comboboxをデフォルトに戻し、グレーアウト
+            self.zm_mode.set("元の設定を維持")
+        # 撮影モード変更後にもズームUI表示を再評価
+        self.update_zoom()
+
     
     def update_zoom(self, event=None):
-        choice = self.zm_mode.get()
-        if choice == "手動入力":
-            # エントリを有効化
-            self.zm_entry.config(state="normal")
-            self.zm_entry.grid(row=4, column=3)
+        """
+        ズーム倍率UIの表示制御:
+        - 撮影モードが photo/video かつ Zoom センサー選択時のみ有効(グレーアウト解除)
+        - それ以外はグレーアウト(非活性)にする
+        """
+        mode = self.capture_mode_var.get()
+        zoom_selected = self.sm_vars["Zoom"].get()
+
+        # Comboboxは常に表示しておき、stateだけ切り替える
+        self.zm_mode.grid(row=4, column=1, padx=5, columnspan=2, sticky="w")
+
+        if mode in ("photo", "video") and zoom_selected:
+            # 有効化
+            self.zm_mode.config(state="readonly")
+            # 手動入力時のみエントリを有効化
+            if self.zm_mode.get() == "手動入力":
+                self.zm_entry.config(state="normal")
+                self.zm_entry.grid(row=4, column=3)
+            else:
+                self.zm_entry.config(state="disabled")
+                self.zm_entry.grid_forget()
         else:
-            # エントリを隠す
+            # グレーアウト
+            self.zm_mode.config(state="disabled")
+            # エントリは常に隠す
             self.zm_entry.config(state="disabled")
             self.zm_entry.grid_forget()
 
-    
     def update_gimbal_pitch(self, event=None):
         choice = self.gp_mode.get()
         # 手動入力時のみエントリ表示
