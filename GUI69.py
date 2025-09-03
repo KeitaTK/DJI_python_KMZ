@@ -903,16 +903,22 @@ class AppGUI(ttk.Frame):
         self.sp = tk.IntVar(value=15)
         ttk.Spinbox(self, from_=1, to=15, textvariable=self.sp, width=5).grid(row=1, column=1, columnspan=2, sticky="w")
 
-        # --- 撮影設定 ---
-        self.ph = tk.BooleanVar(value=False)
-        self.vd = tk.BooleanVar(value=False)
-        self.cb_photo = ttk.Checkbutton(self, text="写真撮影", variable=self.ph, command=self.on_photo_toggle)
-        self.cb_photo.grid(row=2, column=0, sticky="w")
-        self.cb_video = ttk.Checkbutton(self, text="動画撮影", variable=self.vd, command=self.on_video_toggle)
-        self.cb_video.grid(row=2, column=1, sticky="w")
+        # --- 撮影モード選択（排他） ---
+        self.capture_mode_var = tk.StringVar(value="none")  # デフォルトは「撮影なし」
+        modes = [("撮影なし", "none"), ("写真撮影", "photo"), ("動画撮影", "video")]
+        for i, (text, val) in enumerate(modes):
+            ttk.Radiobutton(
+                self,
+                text=text,
+                variable=self.capture_mode_var,
+                value=val,
+                command=self.update_capture_mode
+            ).grid(row=2, column=i, sticky="w", padx=5)
+        # 動画ファイル名入力
         self.vd_suffix_label = ttk.Label(self, text="動画ファイル名:")
         self.vd_suffix_var = tk.StringVar(value="video_01")
         self.vd_suffix_entry = ttk.Entry(self, textvariable=self.vd_suffix_var, width=20)
+
 
         # --- センサー選択 ---
         ttk.Label(self, text="カメラ選択:").grid(row=3, column=0, sticky="w")
@@ -969,7 +975,7 @@ class AppGUI(ttk.Frame):
         self.hover_time_entry = ttk.Entry(self, textvariable=self.hover_time_var, width=8)
 
         # --- UI 初期化 ---
-        self.update_ctrl()
+        self.update_capture_mode()    # 最初に「撮影なし」の状態を反映
         self.update_zoom()
         self.update_gimbal_pitch()
         self.update_yaw()
@@ -985,25 +991,16 @@ class AppGUI(ttk.Frame):
             self.he.config(state="disabled")
             self.he.delete(0, tk.END)
     
-    def on_photo_toggle(self):
-        if self.ph.get():
-            self.vd.set(False)
-        self.update_ctrl()
-    
-    def on_video_toggle(self):
-        if self.vd.get():
-            self.ph.set(False)
-        self.update_ctrl()
-    
-    def update_ctrl(self):
-        if self.vd.get():
-            self.vd_suffix_label.grid(row=2, column=2, sticky="e", padx=(10, 2))
-            self.vd_suffix_entry.grid(row=2, column=3, sticky="w")
+    def update_capture_mode(self):
+        mode = self.capture_mode_var.get()
+        # 動画ファイル名入力の表示制御
+        if mode == "video":
+            self.vd_suffix_label.grid(row=2, column=3, sticky="e", padx=(10, 2))
+            self.vd_suffix_entry.grid(row=2, column=4, sticky="w")
         else:
             self.vd_suffix_label.grid_forget()
             self.vd_suffix_entry.grid_forget()
     
-
     def update_zoom(self, event=None):
         if self.zm_var.get():
             # 「元を維持」を除いた選択肢
@@ -1136,10 +1133,12 @@ class AppGUI(ttk.Frame):
         
         # 機体ヘディング制御モード取得
         heading_mode = HEADING_MODE_OPTIONS[self.heading_mode_var.get()]
+
+        mode = self.capture_mode_var.get()
         
         return {
-            "do_photo": self.ph.get(),
-            "do_video": self.vd.get(),
+            "do_photo": (mode == "photo"),
+            "do_video": (mode == "video"),
             "video_suffix": self.vd_suffix_var.get(),
             "do_gimbal": do_gimbal,
             "gimbal_pitch_angle": gimbal_pitch_angle,
