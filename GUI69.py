@@ -493,7 +493,7 @@ def convert_kml(tree,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                 yaw_fix, yaw_angle, yaw_mode, speed,
                 sensor_modes, hover_time,
-                do_zoom, zoom_ratio, zoom_mode,
+                zoom_ratio, zoom_mode,
                 original_angles, heading_mode, original_heading_settings, log, wp_stop_mode):
 
     # 1) グローバル WP 停止モード設定
@@ -692,31 +692,28 @@ def convert_kml(tree,
                 etree.SubElement(param, f"{{{NS['wpml']}}}gimbalRotateTime").text = "0"
                 etree.SubElement(param, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
         
-        # ユーザがチェックONかつ Zoom センサー選択時は指定倍率
-        if do_zoom and "Zoom" in sensor_modes:
-            ft = None
-            if zoom_mode == "original" and idx in original_angles:
-                ft = original_angles[idx].get("focal_length")
-            elif zoom_ratio is not None:
+        # Zoom センサー選択時
+        if "Zoom" in sensor_modes:
+            if zoom_mode == "fixed" and zoom_ratio is not None:
+                # 指定倍率設定
                 ft = zoom_ratio_to_focal_length(zoom_ratio)
-            if ft is not None:
                 za = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
                 etree.SubElement(za, f"{{{NS['wpml']}}}actionId").text = "0"
                 etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFunc").text = "zoom"
                 zp = etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFuncParam")
                 etree.SubElement(zp, f"{{{NS['wpml']}}}focalLength").text = str(ft)
                 etree.SubElement(zp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
+            elif zoom_mode == "original" and idx in original_angles:
+                # 元データの focal_length を維持
+                ft = original_angles[idx].get("focal_length")
+                if ft is not None:
+                    za = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
+                    etree.SubElement(za, f"{{{NS['wpml']}}}actionId").text = "0"
+                    etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFunc").text = "zoom"
+                    zp = etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFuncParam")
+                    etree.SubElement(zp, f"{{{NS['wpml']}}}focalLength").text = str(ft)
+                    etree.SubElement(zp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
 
-        # チェックOFF時は「元のズーム倍率」を維持するコマンドを追加
-        elif not do_zoom and "Zoom" in sensor_modes and idx in original_angles:
-            ft = original_angles[idx].get("focal_length")
-            if ft is not None:
-                za = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
-                etree.SubElement(za, f"{{{NS['wpml']}}}actionId").text = "0"
-                etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFunc").text = "zoom"
-                zp = etree.SubElement(za, f"{{{NS['wpml']}}}actionActuatorFuncParam")
-                etree.SubElement(zp, f"{{{NS['wpml']}}}focalLength").text = str(ft)
-                etree.SubElement(zp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
 
         # 写真撮影
         if do_photo and not do_video:
@@ -759,7 +756,7 @@ def process_kmz(path,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                 yaw_fix, yaw_angle, yaw_mode,
                 speed, sensor_modes, hover_time,
-                do_zoom, zoom_ratio, zoom_mode,
+                zoom_ratio, zoom_mode,
                 heading_mode, wp_stop_mode, log):
 
     try:
@@ -784,12 +781,12 @@ def process_kmz(path,
         heading_mode_name = next((k for k, v in HEADING_MODE_OPTIONS.items() if v == heading_mode), "不明")
         log.insert(tk.END, f"機体ヘディング制御: {heading_mode_name}\n")
 
-        if do_zoom and "Zoom" in sensor_modes:
+        if "Zoom" in sensor_modes:
             if zoom_mode == "original":
                 log.insert(tk.END, "ズーム設定: 元を維持\n")
-            elif zoom_ratio is not None:
-                log.insert(tk.END,
-                           f"ズーム設定: {zoom_ratio:.1f}倍 ({zoom_ratio_to_focal_length(zoom_ratio):.1f}mm)\n")
+            elif zoom_mode == "fixed" and zoom_ratio is not None:
+                log.insert(tk.END, f"ズーム設定: {zoom_ratio:.1f}倍 ({zoom_ratio*24.0:.1f}mm)\n")
+
 
         out_root, outdir = prepare_output_dirs(path, do_photo, do_video, sensor_modes)
 
@@ -858,7 +855,7 @@ def process_kmz(path,
                         do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
                         yaw_fix, yaw_angle, yaw_mode, speed,
                         sensor_modes, hover_time,
-                        do_zoom, zoom_ratio, zoom_mode,
+                        zoom_ratio, zoom_mode,
                         original_angles, heading_mode, original_heading_settings, log, wp_stop_mode)
 
             log.insert(tk.END, "高度補正なし処理完了\n\n")
@@ -898,7 +895,7 @@ class AppGUI(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         # --- 高度選択 ---
-        ttk.Label(self, text="基準高度:").grid(row=0, column=0, sticky="w")
+        ttk.Label(self, text="基準高度(ATLの時のみ動作):").grid(row=0, column=0, sticky="w")
         self.hc = ttk.Combobox(self, values=list(HEIGHT_OPTIONS), state="readonly", width=20)
         self.hc.set(next(iter(HEIGHT_OPTIONS)))
         self.hc.grid(row=0, column=1, padx=5, columnspan=2, sticky="w")
@@ -923,20 +920,31 @@ class AppGUI(ttk.Frame):
                 command=self.update_capture_mode
             ).grid(row=2, column=i, sticky="w", padx=5)
 
-
         # --- センサー選択 ---
-        ttk.Label(self, text="カメラ選択:").grid(row=3, column=0, sticky="w")
+        self.camera_frame = ttk.LabelFrame(self, text="カメラ選択")
+        # チェックボタン配置
         self.sm_vars = {m: tk.BooleanVar(value=False) for m in SENSOR_MODES}
         for i, m in enumerate(SENSOR_MODES):
-            ttk.Checkbutton(self, text=m, variable=self.sm_vars[m]).grid(row=3, column=1 + i, sticky="w")
+            ttk.Checkbutton(
+                self.camera_frame,
+                text=m,
+                variable=self.sm_vars[m]
+            ).grid(row=0, column=1 + i, sticky="w")
+        # フレームを撮影モード選択の下に固定配置
+        self.camera_frame.grid(row=3, column=0, columnspan=4, sticky="we", pady=5)
 
-        # --- ズーム倍率 ---
-        self.zm_var = tk.BooleanVar(value=False)
-        self.zm_cb = ttk.Checkbutton(self, text="ズーム倍率", variable=self.zm_var, command=self.update_zoom)
-        self.zm_cb.grid(row=4, column=0, sticky="w", pady=5)
-        self.zm_mode = ttk.Combobox(self, values=list(ZOOM_RATIO_OPTIONS), state="readonly", width=15)
+        # ズーム倍率選択
+        ttk.Label(self, text="ズーム倍率:").grid(row=4, column=0, sticky="w", pady=5)
+        # 値に「元の設定を維持」を先頭に加えたリストを生成
+        zoom_values = ["元の設定を維持"] + [k for k in ZOOM_RATIO_OPTIONS if ZOOM_RATIO_OPTIONS[k] != "original"]
+        self.zm_mode = ttk.Combobox(self, values=zoom_values, state="readonly", width=15)
+        # デフォルトを「元の設定を維持」に
+        self.zm_mode.set("元の設定を維持")
+        self.zm_mode.grid(row=4, column=1, padx=5, columnspan=2, sticky="w")
         self.zm_mode.bind("<<ComboboxSelected>>", self.update_zoom)
+        # 手動入力用エントリは選択肢に応じて表示
         self.zm_entry = ttk.Entry(self, width=8, state="disabled")
+
 
         # --- ジンバルピッチ ---
         self.gp_var = tk.BooleanVar(value=False)
@@ -1006,25 +1014,30 @@ class AppGUI(ttk.Frame):
     
     def update_capture_mode(self):
         mode = self.capture_mode_var.get()
+        # チェックボタンの有効／無効を切り替え
+        for child in self.camera_frame.winfo_children():
+            if isinstance(child, ttk.Checkbutton):
+                if mode in ("photo", "video"):
+                    child.state(["!disabled"])
+                else:
+                    child.state(["disabled"])
+        # ラベル付きフレームのタイトルを変更
+        title = "カメラ選択"
+        if mode not in ("photo", "video"):
+            title += "（使用不可）"
+        self.camera_frame.configure(text=title)
     
     def update_zoom(self, event=None):
-        if self.zm_var.get():
-            # 「元を維持」を除いた選択肢
-            vals = [k for k in ZOOM_RATIO_OPTIONS if ZOOM_RATIO_OPTIONS[k] != "original"]
-            self.zm_mode.config(values=vals)
-            self.zm_mode.grid(row=4, column=1, padx=5, columnspan=2, sticky="w")
-            if not self.zm_mode.get():
-                self.zm_mode.set(vals[0])
-            if self.zm_mode.get() == "手動入力":
-                self.zm_entry.config(state="normal")
-                self.zm_entry.grid(row=4, column=3)
-            else:
-                self.zm_entry.config(state="disabled")
-                self.zm_entry.grid_forget()
+        choice = self.zm_mode.get()
+        if choice == "手動入力":
+            # エントリを有効化
+            self.zm_entry.config(state="normal")
+            self.zm_entry.grid(row=4, column=3)
         else:
-            # チェックオフ時は非表示（元設定維持）
-            self.zm_mode.grid_forget()
+            # エントリを隠す
+            self.zm_entry.config(state="disabled")
             self.zm_entry.grid_forget()
+
     
     def update_gimbal_pitch(self, event=None):
         if self.gp_var.get():
@@ -1077,7 +1090,8 @@ class AppGUI(ttk.Frame):
                 offset = 0.0
         else:
             offset = float(v)
-        
+
+        # ヨー設定
         yaw_angle = None
         yaw_mode = "none"
         if self.yf.get():
@@ -1093,7 +1107,8 @@ class AppGUI(ttk.Frame):
             else:
                 yaw_mode = "fixed"
                 yaw_angle = float(yval)
-        
+
+        # ジンバルピッチ設定
         do_gimbal = self.gp_var.get()
         gimbal_pitch_angle = None
         gimbal_pitch_mode = "none"
@@ -1110,38 +1125,35 @@ class AppGUI(ttk.Frame):
             else:
                 gimbal_pitch_mode = "fixed"
                 gimbal_pitch_angle = float(gp_val)
-        
-        do_zoom = self.zm_var.get()
-        if not do_zoom:
+
+        # ズーム設定（プルダウンのみ）
+        zoom_choice = self.zm_mode.get()
+        if zoom_choice == "元の設定を維持":
             zoom_mode = "original"
             zoom_ratio = None
-        else:
-            zm_val = ZOOM_RATIO_OPTIONS[self.zm_mode.get()]
-            if zm_val == "original":
-                zoom_mode = "original"
+        elif zoom_choice == "手動入力":
+            zoom_mode = "fixed"
+            try:
+                zoom_ratio = float(self.zm_entry.get())
+            except:
                 zoom_ratio = None
-            elif zm_val == "custom":
-                zoom_mode = "fixed"
-                try:
-                    zoom_ratio = float(self.zm_entry.get())
-                except:
-                    zoom_ratio = None
-            else:
-                zoom_mode = "fixed"
-                zoom_ratio = float(zm_val)
-        
+        else:
+            zoom_mode = "fixed"
+            zoom_ratio = ZOOM_RATIO_OPTIONS[zoom_choice]
+
+        # ホバリング時間
         hover_time = 0
         if self.hv.get():
             try:
                 hover_time = max(0, float(self.hover_time_var.get()))
             except:
                 hover_time = 2.0
-        
+
         # 機体ヘディング制御モード取得
         heading_mode = HEADING_MODE_OPTIONS[self.heading_mode_var.get()]
 
         mode = self.capture_mode_var.get()
-        
+
         return {
             "do_photo": (mode == "photo"),
             "do_video": (mode == "video"),
@@ -1154,12 +1166,12 @@ class AppGUI(ttk.Frame):
             "speed": max(1, min(15, self.sp.get())),
             "sensor_modes": [m for m, var in self.sm_vars.items() if var.get()],
             "hover_time": hover_time,
-            "do_zoom": do_zoom,
             "zoom_ratio": zoom_ratio,
             "zoom_mode": zoom_mode,
             "heading_mode": heading_mode,
             "wp_stop_mode": self.stop_mode_var.get()
         }
+
 
 # --- エントリポイント -------------------------------------------------------
 
