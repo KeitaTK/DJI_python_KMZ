@@ -52,6 +52,7 @@ GIMBAL_PITCH_OPTIONS = {
     "元の角度維持": "original",
     "真下: -90°": -90.0,
     "前: 0°": 0.0,
+    "フリー": "free",  # 追加
     "手動入力": "custom"
 }
 
@@ -59,6 +60,7 @@ ZOOM_RATIO_OPTIONS = {
     "元の倍率を維持": "original",
     "5倍": 5.0,
     "10倍": 10.0,
+    "フリー": "free",  # 追加
     "手動入力": "custom"
 }
 
@@ -583,6 +585,22 @@ def convert_kml(tree,
     for pm in tree.findall(".//kml:Placemark", NS):
         for ag in list(pm.findall("wpml:actionGroup", NS)):
             pm.remove(ag)
+    # ジンバルピッチ「フリー」時は既存のジンバルピッチ関連アクションのみ消去
+    if gimbal_pitch_mode == "free":
+        for pm in tree.findall(".//kml:Placemark", NS):
+            for ag in pm.findall("wpml:actionGroup", NS):
+                for act in list(ag.findall("wpml:action", NS)):
+                    func = act.find("wpml:actionActuatorFunc", NS)
+                    if func is not None and func.text == "gimbalRotate":
+                        ag.remove(act)
+    # ズーム倍率「フリー」時は既存のズーム関連アクションのみ消去
+    if zoom_mode == "free":
+        for pm in tree.findall(".//kml:Placemark", NS):
+            for ag in pm.findall("wpml:actionGroup", NS):
+                for act in list(ag.findall("wpml:action", NS)):
+                    func = act.find("wpml:actionActuatorFunc", NS)
+                    if func is not None and func.text == "zoom":
+                        ag.remove(act)
     
     pp = tree.find(".//wpml:payloadParam", NS)
     if pp is not None:
@@ -674,9 +692,9 @@ def convert_kml(tree,
             pt = None
             if gimbal_pitch_mode == "original" and idx in original_angles:
                 pt = original_angles[idx].get("pitch")
-            elif gimbal_pitch_angle is not None:
+            elif gimbal_pitch_mode == "fixed" and gimbal_pitch_angle is not None:
                 pt = gimbal_pitch_angle
-            
+            # gimbal_pitch_mode == "free" の場合は何も追加しない
             if pt is not None:
                 gp = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
                 etree.SubElement(gp, f"{{{NS['wpml']}}}actionId").text = "0"
@@ -694,7 +712,7 @@ def convert_kml(tree,
                 etree.SubElement(param, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
         
         # Zoom センサー選択時
-        if "Zoom" in sensor_modes:
+        if "Zoom" in sensor_modes and zoom_mode != "free":
             if zoom_mode == "fixed" and zoom_ratio is not None:
                 # 指定倍率設定
                 ft = zoom_ratio_to_focal_length(zoom_ratio)
@@ -1112,7 +1130,6 @@ class AppGUI(ttk.Frame):
         choice = self.gp_mode.get()
         state = str(self.gp_mode.cget("state"))
         if choice == "手動入力" and state in ("readonly", "normal"):
-            # 入力欄の位置をズーム倍率・ヨーと揃える
             self.gp_entry.grid(row=5, column=3, sticky="w")
             self.gp_entry.config(state="normal")
         else:
@@ -1200,6 +1217,9 @@ class AppGUI(ttk.Frame):
                     gimbal_pitch_angle = float(self.gp_entry.get())
                 except:
                     gimbal_pitch_angle = None
+            elif val == "free":
+                gimbal_pitch_mode = "free"
+                gimbal_pitch_angle = None
             else:
                 gimbal_pitch_mode = "fixed"
                 gimbal_pitch_angle = float(val)
@@ -1222,6 +1242,9 @@ class AppGUI(ttk.Frame):
                 zoom_ratio = float(self.zm_entry.get())
             except:
                 zoom_ratio = None
+        elif zoom_choice == "フリー":
+            zoom_mode = "free"
+            zoom_ratio = None
         else:
             zoom_mode = "fixed"
             zoom_ratio = ZOOM_RATIO_OPTIONS[zoom_choice]
