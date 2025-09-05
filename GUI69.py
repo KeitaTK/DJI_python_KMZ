@@ -937,35 +937,29 @@ class AppGUI(ttk.Frame):
 
         # ズーム倍率選択
         ttk.Label(self, text="ズーム倍率:").grid(row=4, column=0, sticky="w", pady=5)
-        # 値に「元の設定を維持」を先頭に加えたリストを生成
         zoom_values = ["元の設定を維持"] + [k for k in ZOOM_RATIO_OPTIONS if ZOOM_RATIO_OPTIONS[k] != "original"]
         self.zm_mode = ttk.Combobox(self, values=zoom_values, state="readonly", width=15)
-        # デフォルトを「元の設定を維持」に
         self.zm_mode.set("元の設定を維持")
         self.zm_mode.grid(row=4, column=1, padx=5, columnspan=2, sticky="w")
         self.zm_mode.bind("<<ComboboxSelected>>", self.update_zoom)
-        # 手動入力用エントリは選択肢に応じて表示
+        # 手動入力用エントリ
         self.zm_entry = ttk.Entry(self, width=8, state="disabled")
-
 
         # --- ジンバルピッチ角 (撮影モード時のみ表示) ---
         ttk.Label(self, text="ジンバルピッチ角:").grid(row=5, column=0, sticky="w", pady=5)
-        # StringVar を削除し、Combobox のみで管理
         self.gp_mode = ttk.Combobox(
             self, values=list(GIMBAL_PITCH_OPTIONS),
             state="disabled", width=15
         )
-        self.gp_mode.set("元の角度維持")  # 初期値設定
-        # 選択変更イベントのみバインド
+        self.gp_mode.set("元の角度維持")
         self.gp_mode.bind("<<ComboboxSelected>>", self.update_gimbal_pitch)
         self.gp_mode.grid(row=5, column=1, padx=5, columnspan=2, sticky="w", pady=5)
+        # 入力欄の行をズーム倍率・ヨーと揃える（column=3, sticky="w"）
         self.gp_entry = ttk.Entry(self, width=8, state="disabled")
-
         # --- ヨー固定（チェックボックス削除、プルダウンのみ） ---
         ttk.Label(self, text="撮影時ヨー角:").grid(row=6, column=0, sticky="w")
         self.yc = ttk.Combobox(self, values=list(YAW_OPTIONS), state="readonly", width=15)
         self.yc.bind("<<ComboboxSelected>>", self.update_yaw)
-        print("ヨー角 Combobox イベントバインド完了")  # この行を追加
         self.yc.set("元の角度維持")
         self.yc.grid(row=6, column=1, padx=5, columnspan=2, sticky="w")
         self.ye = ttk.Entry(self, width=8, state="disabled")
@@ -1097,17 +1091,15 @@ class AppGUI(ttk.Frame):
         if mode in ("photo", "video") and zoom_selected:
             # 有効化
             self.zm_mode.config(state="readonly")
-            # 手動入力時のみエントリを有効化
             if self.zm_mode.get() == "手動入力":
                 self.zm_entry.config(state="normal")
-                self.zm_entry.grid(row=4, column=3)
+                self.zm_entry.grid(row=4, column=3, sticky="w")
             else:
                 self.zm_entry.config(state="disabled")
                 self.zm_entry.grid_forget()
         else:
             # グレーアウト
             self.zm_mode.config(state="disabled")
-            # エントリは常に隠す
             self.zm_entry.config(state="disabled")
             self.zm_entry.grid_forget()
 
@@ -1116,14 +1108,14 @@ class AppGUI(ttk.Frame):
         choice = self.gp_mode.get()
         state = str(self.gp_mode.cget("state"))
         if choice == "手動入力" and state in ("readonly", "normal"):
-            self.gp_entry.grid(row=5, column=3, padx=5, sticky="w")
+            # 入力欄の位置をズーム倍率・ヨーと揃える
+            self.gp_entry.grid(row=5, column=3, sticky="w")
             self.gp_entry.config(state="normal")
         else:
             self.gp_entry.grid_forget()
             self.gp_entry.config(state="disabled")
         
     def update_yaw(self, event=None):
-        # 「写真撮影」または「動画撮影」以外は常に非活性
         if self.capture_mode_var.get() not in ("photo", "video"):
             self.ye.config(state="disabled")
             self.ye.grid_forget()
@@ -1131,7 +1123,7 @@ class AppGUI(ttk.Frame):
         choice = self.yc.get()
         if choice == "手動入力":
             self.ye.config(state="normal")
-            self.ye.grid(row=6, column=3)
+            self.ye.grid(row=6, column=3, sticky="w")
         else:
             self.ye.config(state="disabled")
             self.ye.grid_forget()
