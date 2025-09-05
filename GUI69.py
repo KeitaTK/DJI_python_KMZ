@@ -965,6 +965,7 @@ class AppGUI(ttk.Frame):
         ttk.Label(self, text="撮影時ヨー角:").grid(row=6, column=0, sticky="w")
         self.yc = ttk.Combobox(self, values=list(YAW_OPTIONS), state="readonly", width=15)
         self.yc.bind("<<ComboboxSelected>>", self.update_yaw)
+        print("ヨー角 Combobox イベントバインド完了")  # この行を追加
         self.yc.set("元の角度維持")
         self.yc.grid(row=6, column=1, padx=5, columnspan=2, sticky="w")
         self.ye = ttk.Entry(self, width=8, state="disabled")
@@ -1111,29 +1112,74 @@ class AppGUI(ttk.Frame):
             self.zm_entry.grid_forget()
 
     def update_gimbal_pitch(self, event=None):
+        print("=== update_gimbal_pitch デバッグ開始 ===")
+        print(f"event: {event}")
+        
         # Combobox から直接値を取得
-        choice = self.gp_mode.get() 
-        # 手動入力時のみエントリ表示
-        if choice == "手動入力" and self.gp_mode.cget("state") in ("readonly", "normal"):
+        choice = self.gp_mode.get()
+        print(f"ジンバルピッチ角プルダウン選択値: '{choice}'")
+        
+        # 重要：str() で明示的に文字列に変換
+        state = str(self.gp_mode.cget("state"))
+        print(f"gp_mode state: '{state}' (type: {type(state)})")
+        
+        # 条件を個別にチェック
+        condition1 = (choice == "手動入力")
+        condition2 = (state in ("readonly", "normal"))
+        print(f"choice == '手動入力': {condition1}")
+        print(f"state in ('readonly', 'normal'): {condition2}")
+        print(f"両条件を満たす: {condition1 and condition2}")
+        
+        # 修正：stateをstr()で変換後に比較
+        if choice == "手動入力" and state in ("readonly", "normal"):
+            print("→ 条件を満たしたため、エントリフィールドを表示します")
             self.gp_entry.grid(row=5, column=3, padx=5, sticky="w")
             self.gp_entry.config(state="normal")
+            print("→ ジンバルピッチ角エントリ表示完了")
         else:
+            print("→ 条件を満たさないため、エントリフィールドを非表示にします")
             self.gp_entry.grid_forget()
             self.gp_entry.config(state="disabled")
+            print("→ ジンバルピッチ角エントリ非表示完了")
+        
+        print("=== update_gimbal_pitch デバッグ終了 ===\n")
+
+
+
+
  
     def update_yaw(self, event=None):
+        print(f"=== update_yaw デバッグ開始 ===")
+        print(f"event: {event}")
+        
         # 「写真撮影」または「動画撮影」以外は常に非活性
         if self.capture_mode_var.get() not in ("photo", "video"):
+            print("撮影モードが photo/video 以外のため、ヨー角エントリを非表示")
             self.ye.config(state="disabled")
             self.ye.grid_forget()
+            print("=== update_yaw デバッグ終了 (early return) ===\n")
             return
+        
+        # 現在の選択値を取得
+        choice = self.yc.get()
+        print(f"ヨー角プルダウン選択値: '{choice}'")
+        
         # 撮影モードが photo/video のとき、手動入力選択で右にエントリを表示
-        if self.yc.get() == "手動入力":
+        if choice == "手動入力":
+            print("→ ヨー角が「手動入力」に設定されました")
+            print("→ エントリフィールドを表示します")
             self.ye.config(state="normal")
             self.ye.grid(row=6, column=3)
+            print("→ ヨー角エントリ表示完了")
         else:
+            print(f"→ ヨー角が「{choice}」に設定されました（手動入力以外）")
+            print("→ エントリフィールドを非表示にします")
             self.ye.config(state="disabled")
             self.ye.grid_forget()
+            print("→ ヨー角エントリ非表示完了")
+        
+        print("=== update_yaw デバッグ終了 ===\n")
+
     
     def update_hover(self):
         if self.hv.get():
