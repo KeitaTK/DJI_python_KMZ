@@ -950,18 +950,16 @@ class AppGUI(ttk.Frame):
 
         # --- ジンバルピッチ角 (撮影モード時のみ表示) ---
         ttk.Label(self, text="ジンバルピッチ角:").grid(row=5, column=0, sticky="w", pady=5)
-        # Combobox は StringVar で管理し、変更を trace して確実に entry を表示する
-        self.gp_var = tk.StringVar(value="元の角度維持")
+        # StringVar を削除し、Combobox のみで管理
         self.gp_mode = ttk.Combobox(
             self, values=list(GIMBAL_PITCH_OPTIONS),
-            textvariable=self.gp_var, state="disabled", width=15
+            state="disabled", width=15
         )
-        # Combobox 選択イベントと trace の両方を使い確実に反応
+        self.gp_mode.set("元の角度維持")  # 初期値設定
+        # 選択変更イベントのみバインド
         self.gp_mode.bind("<<ComboboxSelected>>", self.update_gimbal_pitch)
-        self.gp_var.trace_add("write", lambda *a: self.update_gimbal_pitch())
         self.gp_mode.grid(row=5, column=1, padx=5, columnspan=2, sticky="w", pady=5)
         self.gp_entry = ttk.Entry(self, width=8, state="disabled")
-        # ここでgrid()していないので、update_gimbal_pitchでgrid()しないと表示されない
 
         # --- ヨー固定（チェックボックス削除、プルダウンのみ） ---
         ttk.Label(self, text="撮影時ヨー角:").grid(row=6, column=0, sticky="w")
@@ -1045,8 +1043,8 @@ class AppGUI(ttk.Frame):
             self.gp_mode.config(state="readonly")
         else:
             self.gp_mode.config(state="disabled")
-            # StringVar を明示的に戻す（trace が発火して entry を隠す）
-            self.gp_var.set("元の角度維持")
+            # StringVar への設定を削除し、Combobox に直接設定
+            self.gp_mode.set("元の角度維持")
             self.gp_entry.grid_forget()
             self.gp_entry.config(state="disabled")
 
@@ -1113,9 +1111,9 @@ class AppGUI(ttk.Frame):
             self.zm_entry.grid_forget()
 
     def update_gimbal_pitch(self, event=None):
-        # Combobox 値は StringVar で取得（readonly でも安定）
-        choice = self.gp_var.get()
-        # 手動入力時のみエントリ表示（他と同じ列配置）
+        # Combobox から直接値を取得
+        choice = self.gp_mode.get() 
+        # 手動入力時のみエントリ表示
         if choice == "手動入力" and self.gp_mode.cget("state") in ("readonly", "normal"):
             self.gp_entry.grid(row=5, column=3, padx=5, sticky="w")
             self.gp_entry.config(state="normal")
@@ -1184,7 +1182,7 @@ class AppGUI(ttk.Frame):
         # --- ジンバルピッチ設定 ---
         capture_mode = self.capture_mode_var.get()
         if capture_mode in ("photo", "video"):
-            val = GIMBAL_PITCH_OPTIONS[self.gp_var.get()]
+            val = GIMBAL_PITCH_OPTIONS[self.gp_mode.get()]  # 直接取得に変更
             if val == "original":
                 gimbal_pitch_mode = "original"
                 gimbal_pitch_angle = None
