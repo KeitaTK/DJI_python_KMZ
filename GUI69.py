@@ -966,8 +966,8 @@ class AppGUI(ttk.Frame):
 
         # --- 飛行時ヨー角制御 ---
         ttk.Label(self, text="飛行時ヨー角:").grid(row=7, column=0, sticky="w", pady=5)
-        # デフォルトを「撮影方向に合わせる」に設定
-        self.heading_mode_var = tk.StringVar(value="撮影方向に合わせる")
+        # デフォルトを「元の設定を維持」に設定
+        self.heading_mode_var = tk.StringVar(value="元の設定を維持")
         heading_frame = ttk.Frame(self)
         heading_frame.grid(row=7, column=1, columnspan=3, sticky="w", padx=5)
         self.heading_mode_radios = []
@@ -992,18 +992,22 @@ class AppGUI(ttk.Frame):
 
         # --- ホバリング ---
         self.hv = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self, text="ホバリング", variable=self.hv, command=self.update_hover).grid(row=9, column=0, sticky="w", pady=5)
+        self.hover_check = ttk.Checkbutton(self, text="ホバリング", variable=self.hv, command=self.update_hover)
+        self.hover_check.grid(row=9, column=0, sticky="w", pady=5)
         self.hover_time_label = ttk.Label(self, text="ホバリング時間 (秒):")
         self.hover_time_var = tk.StringVar(value="2")
         self.hover_time_entry = ttk.Entry(self, textvariable=self.hover_time_var, width=8)
 
         # --- UI 初期化 ---
-        self.update_capture_mode()    # 最初に「撮影なし」の状態を反映
+        self.update_capture_mode()
         self.update_zoom()
         self.update_gimbal_pitch()
         self.update_yaw()
         self.update_hover()
+        self.update_hover_mask()  # ← 追加
 
+        # WP停止モードの変更時にホバリング有効/無効を切り替え
+        self.stop_mode_var.trace_add("write", lambda *args: self.update_hover_mask())
     
     def on_height_change(self, event=None):
         if HEIGHT_OPTIONS[self.hc.get()] == "custom":
@@ -1136,6 +1140,17 @@ class AppGUI(ttk.Frame):
             self.hover_time_label.grid_forget()
             self.hover_time_entry.grid_forget()
     
+    def update_hover_mask(self):
+        """WP到達時動作が「停止する」以外のときはホバリング選択をグレーアウト＆解除"""
+        stop_mode = self.stop_mode_var.get()
+        if stop_mode == "stop":
+            self.hover_check.state(["!disabled"])
+        else:
+            self.hover_check.state(["disabled"])
+            self.hv.set(False)
+            self.hover_time_label.grid_forget()
+            self.hover_time_entry.grid_forget()
+    
     def get_params(self):
         # offset削除 -> 高度オフセットは常に0
         offset = 0.0
@@ -1213,11 +1228,14 @@ class AppGUI(ttk.Frame):
 
         # ホバリング時間
         hover_time = 0
-        if self.hv.get():
+        # WP到達時動作が「停止する」以外のときは強制的に0
+        if self.stop_mode_var.get() == "stop" and self.hv.get():
             try:
                 hover_time = max(0, float(self.hover_time_var.get()))
             except:
                 hover_time = 2.0
+        else:
+            hover_time = 0
 
         # 機体ヘディング制御モード取得
         heading_mode = HEADING_MODE_OPTIONS[self.heading_mode_var.get()]
