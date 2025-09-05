@@ -39,35 +39,35 @@ HEIGHT_OPTIONS = {
 }
 
 YAW_OPTIONS = {
+    "元の角度維持": "original",
+    "フリー": "free",
     "1Q: 88.00°": 88.00,
     "2Q: 96.92°": 96.92,
     "4Q: 87.31°": 87.31,
     "北": 0.00,
-    "元の角度維持": "original",
-    "手動入力": "custom",
-    "フリー": "free"  # 追加
+    "手動入力": "custom"
 }
 
 GIMBAL_PITCH_OPTIONS = {
+    "元の角度維持": "original",
     "真下: -90°": -90.0,
     "前: 0°": 0.0,
-    "元の角度維持": "original",
     "手動入力": "custom"
 }
 
 ZOOM_RATIO_OPTIONS = {
+    "元の倍率を維持": "original",
     "5倍": 5.0,
     "10倍": 10.0,
-    "元の設定を維持": "original",
     "手動入力": "custom"
 }
 
 # 機体ヘディング制御の選択肢
 HEADING_MODE_OPTIONS = {
-    "次の撮影方向を向く": "follow_gimbal",
-    "飛行方向を向く": "follow_wayline",
     "元の設定を維持": "original",
-    "手動モード": "manually"
+    "フリー": "manually",
+    "次の撮影方向を向く": "follow_gimbal",
+    "飛行方向を向く": "follow_wayline"
 }
 
 SENSOR_MODES = ["Wide", "Zoom", "IR"]
