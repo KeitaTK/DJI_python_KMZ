@@ -44,7 +44,8 @@ YAW_OPTIONS = {
     "4Q: 87.31°": 87.31,
     "北": 0.00,
     "元の角度維持": "original",
-    "手動入力": "custom"
+    "手動入力": "custom",
+    "フリー": "free"  # 追加
 }
 
 GIMBAL_PITCH_OPTIONS = {
@@ -491,7 +492,7 @@ def apply_heading_settings(tree, heading_mode, original_heading_settings, origin
 def convert_kml(tree,
                 do_photo, do_video,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
-                yaw_fix, yaw_angle, yaw_mode, speed,
+                yaw_angle, yaw_mode, speed,
                 sensor_modes, hover_time,
                 zoom_ratio, zoom_mode,
                 original_angles, heading_mode, original_heading_settings, log, wp_stop_mode):
@@ -600,7 +601,7 @@ def convert_kml(tree,
         etree.SubElement(pp, f"{{{NS['wpml']}}}imageFormat").text = fmt
     
     # ヨー固定
-    if yaw_fix and yaw_mode != "original" and yaw_angle is not None:
+    if yaw_mode == "fixed" and yaw_angle is not None:
         for hp in tree.findall(".//wpml:globalWaypointHeadingParam", NS):
             m = hp.find("wpml:waypointHeadingMode", NS)
             a = hp.find("wpml:waypointHeadingAngle", NS)
@@ -626,7 +627,7 @@ def convert_kml(tree,
         [p for p in tree.findall(".//kml:Placemark", NS) if p.find("wpml:index", NS) is not None],
         key=lambda x: int(x.find("wpml:index", NS).text)
     )
-    
+
     for i, pm in enumerate(pms):
         idx = int(pm.find("wpml:index", NS).text)
         ag = etree.SubElement(pm, f"{{{NS['wpml']}}}actionGroup")
@@ -634,10 +635,10 @@ def convert_kml(tree,
         etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupStartIndex").text = str(idx)
         etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupEndIndex").text = str(idx)
         etree.SubElement(ag, f"{{{NS['wpml']}}}actionGroupMode").text = "sequence"
-        
+
         trg = etree.SubElement(ag, f"{{{NS['wpml']}}}actionTrigger")
         etree.SubElement(trg, f"{{{NS['wpml']}}}actionTriggerType").text = "reachPoint"
-        
+
         # 動画開始 (最初のみ)
         if do_video and i == 0:
             sr = etree.SubElement(ag, f"{{{NS['wpml']}}}action")
@@ -646,12 +647,12 @@ def convert_kml(tree,
             sp = etree.SubElement(sr, f"{{{NS['wpml']}}}actionActuatorFuncParam")
             etree.SubElement(sp, f"{{{NS['wpml']}}}payloadPositionIndex").text = "0"
         
-        # ヨー固定
-        if yaw_fix:
+        # ヨー固定アクション追加（「フリー」以外のみ）
+        if yaw_mode != "free":
             yt = None
             if yaw_mode == "original" and idx in original_angles:
                 yt = original_angles[idx].get("heading")
-            elif yaw_angle is not None:
+            elif yaw_mode == "fixed" and yaw_angle is not None:
                 yt = yaw_angle
             
             if yt is not None:
@@ -754,7 +755,7 @@ def convert_kml(tree,
 def process_kmz(path,
                 do_photo, do_video,
                 do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
-                yaw_fix, yaw_angle, yaw_mode,
+                yaw_angle, yaw_mode,
                 speed, sensor_modes, hover_time,
                 zoom_ratio, zoom_mode,
                 heading_mode, wp_stop_mode, log):
@@ -853,7 +854,7 @@ def process_kmz(path,
             convert_kml(tree,
                         do_photo, do_video,
                         do_gimbal, gimbal_pitch_angle, gimbal_pitch_mode,
-                        yaw_fix, yaw_angle, yaw_mode, speed,
+                        yaw_angle, yaw_mode, speed,
                         sensor_modes, hover_time,
                         zoom_ratio, zoom_mode,
                         original_angles, heading_mode, original_heading_settings, log, wp_stop_mode)
@@ -921,7 +922,7 @@ class AppGUI(ttk.Frame):
             ).grid(row=2, column=i, sticky="w", padx=5)
 
         # --- センサー選択 ---
-        self.camera_frame = ttk.LabelFrame(self, text="カメラ選択")
+        self.camera_frame = ttk.LabelFrame(self, text="カメラ選択（必須）")
         # チェックボタン配置
         self.sm_vars = {m: tk.BooleanVar(value=False) for m in SENSOR_MODES}
         for i, m in enumerate(SENSOR_MODES):
@@ -949,40 +950,43 @@ class AppGUI(ttk.Frame):
 
         # --- ジンバルピッチ角 (撮影モード時のみ表示) ---
         ttk.Label(self, text="ジンバルピッチ角:").grid(row=5, column=0, sticky="w", pady=5)
+        # Combobox は StringVar で管理し、変更を trace して確実に entry を表示する
+        self.gp_var = tk.StringVar(value="元の角度維持")
         self.gp_mode = ttk.Combobox(
             self, values=list(GIMBAL_PITCH_OPTIONS),
-            state="disabled", width=15
+            textvariable=self.gp_var, state="disabled", width=15
         )
+        # Combobox 選択イベントと trace の両方を使い確実に反応
         self.gp_mode.bind("<<ComboboxSelected>>", self.update_gimbal_pitch)
-        self.gp_mode.set("元の角度維持")
-        self.gp_mode.grid(
-            row=5, column=1, padx=5, columnspan=2,
-            sticky="w", pady=5
-        )
+        self.gp_var.trace_add("write", lambda *a: self.update_gimbal_pitch())
+        self.gp_mode.grid(row=5, column=1, padx=5, columnspan=2, sticky="w", pady=5)
         self.gp_entry = ttk.Entry(self, width=8, state="disabled")
+        # ここでgrid()していないので、update_gimbal_pitchでgrid()しないと表示されない
 
-        # --- ヨー固定 ---
-        self.yf = tk.BooleanVar(value=False)
-        ttk.Checkbutton(self, text="機体ヨー角", variable=self.yf, command=self.update_yaw).grid(row=6, column=0, sticky="w")
+        # --- ヨー固定（チェックボックス削除、プルダウンのみ） ---
+        ttk.Label(self, text="撮影時ヨー角:").grid(row=6, column=0, sticky="w")
         self.yc = ttk.Combobox(self, values=list(YAW_OPTIONS), state="readonly", width=15)
         self.yc.bind("<<ComboboxSelected>>", self.update_yaw)
-        # デフォルトを「元の角度維持」に設定
         self.yc.set("元の角度維持")
+        self.yc.grid(row=6, column=1, padx=5, columnspan=2, sticky="w")
         self.ye = ttk.Entry(self, width=8, state="disabled")
 
-        # --- 機体ヘディング制御 ---
-        ttk.Label(self, text="機体ヘディング角:").grid(row=7, column=0, sticky="w", pady=5)
+        # --- 飛行時ヨー角制御 ---
+        ttk.Label(self, text="飛行時ヨー角:").grid(row=7, column=0, sticky="w", pady=5)
         # デフォルトを「撮影方向に合わせる」に設定
         self.heading_mode_var = tk.StringVar(value="撮影方向に合わせる")
         heading_frame = ttk.Frame(self)
         heading_frame.grid(row=7, column=1, columnspan=3, sticky="w", padx=5)
+        self.heading_mode_radios = []
         for i, (text, value) in enumerate(HEADING_MODE_OPTIONS.items()):
-            ttk.Radiobutton(
+            rb = ttk.Radiobutton(
                 heading_frame,
                 text=text,
                 variable=self.heading_mode_var,
                 value=text
-            ).grid(row=0, column=i, sticky="w", padx=5)
+            )
+            rb.grid(row=0, column=i, sticky="w", padx=5)
+            self.heading_mode_radios.append((text, rb))
 
 
         # --- ウェイポイント停止モード選択 ---
@@ -1030,7 +1034,9 @@ class AppGUI(ttk.Frame):
 
         # ラベル付きフレームのタイトルを変更
         title = "カメラ選択"
-        if mode not in ("photo", "video"):
+        if mode in ("photo", "video"):
+            title += "（必須）"
+        else:
             title += "（使用不可）"
         self.camera_frame.configure(text=title)
 
@@ -1039,8 +1045,32 @@ class AppGUI(ttk.Frame):
             self.gp_mode.config(state="readonly")
         else:
             self.gp_mode.config(state="disabled")
-            self.gp_mode.set("元の角度維持")
+            # StringVar を明示的に戻す（trace が発火して entry を隠す）
+            self.gp_var.set("元の角度維持")
+            self.gp_entry.grid_forget()
             self.gp_entry.config(state="disabled")
+
+        # ヨー角プルダウンの有効/無効切り替え
+        if mode == "photo":
+            self.yc.config(state="readonly")
+            self.update_yaw()
+        else:
+            self.yc.config(state="disabled")
+            self.ye.config(state="disabled")
+            self.ye.grid_forget()
+
+        # 飛行時ヨー角「次の撮影方向を向く」ラジオボタンの有効/無効切り替え
+        for text, rb in self.heading_mode_radios:
+            if text == "次の撮影方向を向く":
+                if mode == "none":
+                    rb.state(["disabled"])
+                    # 「撮影なし」時に選択されていたら他に切り替え
+                    if self.heading_mode_var.get() == "次の撮影方向を向く":
+                        self.heading_mode_var.set("飛行方向を向く")
+                else:
+                    rb.state(["!disabled"])
+            else:
+                rb.state(["!disabled"])
 
         # 撮影なし選択時にはZoomチェックと設定をリセット
         if mode == "none":
@@ -1082,29 +1112,27 @@ class AppGUI(ttk.Frame):
             self.zm_entry.grid_forget()
 
     def update_gimbal_pitch(self, event=None):
-        choice = self.gp_mode.get()
-        # 手動入力時のみエントリ表示
-        if choice == "手動入力" and self.gp_mode.cget("state") == "readonly":
+        # Combobox 値は StringVar で取得（readonly でも安定）
+        choice = self.gp_var.get()
+        # 手動入力時のみエントリ表示（他と同じ列配置）
+        if choice == "手動入力" and self.gp_mode.cget("state") in ("readonly", "normal"):
+            self.gp_entry.grid(row=5, column=3, padx=5, sticky="w")
             self.gp_entry.config(state="normal")
-            self.gp_entry.grid(row=5, column=3)
         else:
-            self.gp_entry.config(state="disabled")
             self.gp_entry.grid_forget()
-    
+            self.gp_entry.config(state="disabled")
+ 
     def update_yaw(self, event=None):
-        if self.yf.get():
-            self.yc.grid(row=6, column=1, padx=5, columnspan=2, sticky="w")
-            if not self.yc.get():
-                self.yc.set(next(iter(YAW_OPTIONS)))
-            
-            if self.yc.get() == "手動入力":
-                self.ye.config(state="normal")
-                self.ye.grid(row=6, column=3)
-            else:
-                self.ye.config(state="disabled")
-                self.ye.grid_forget()
+        # 「写真撮影」以外は常に非活性
+        if self.capture_mode_var.get() != "photo":
+            self.ye.config(state="disabled")
+            self.ye.grid_forget()
+            return
+        if self.yc.get() == "手動入力":
+            self.ye.config(state="normal")
+            self.ye.grid(row=6, column=3)
         else:
-            self.yc.grid_forget()
+            self.ye.config(state="disabled")
             self.ye.grid_forget()
     
     def update_hover(self):
@@ -1130,7 +1158,8 @@ class AppGUI(ttk.Frame):
         # ヨー設定
         yaw_angle = None
         yaw_mode = "none"
-        if self.yf.get():
+        mode = self.capture_mode_var.get()
+        if mode == "photo":
             yval = YAW_OPTIONS[self.yc.get()]
             if yval == "original":
                 yaw_mode = "original"
@@ -1140,14 +1169,19 @@ class AppGUI(ttk.Frame):
                     yaw_angle = float(self.ye.get())
                 except:
                     yaw_angle = None
+            elif yval == "free":
+                yaw_mode = "free"
             else:
                 yaw_mode = "fixed"
                 yaw_angle = float(yval)
+        else:
+            # 写真撮影なし時は強制的に"free"
+            yaw_mode = "free"
 
         # --- ジンバルピッチ設定 ---
         capture_mode = self.capture_mode_var.get()
         if capture_mode in ("photo", "video"):
-            val = GIMBAL_PITCH_OPTIONS[self.gp_mode.get()]
+            val = GIMBAL_PITCH_OPTIONS[self.gp_var.get()]
             if val == "original":
                 gimbal_pitch_mode = "original"
                 gimbal_pitch_angle = None
@@ -1202,7 +1236,6 @@ class AppGUI(ttk.Frame):
             "do_gimbal": do_gimbal,
             "gimbal_pitch_angle": gimbal_pitch_angle,
             "gimbal_pitch_mode": gimbal_pitch_mode,
-            "yaw_fix": self.yf.get(),
             "yaw_angle": yaw_angle,
             "yaw_mode": yaw_mode,
             "speed": max(1, min(15, self.sp.get())),
