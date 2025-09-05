@@ -1051,13 +1051,14 @@ class AppGUI(ttk.Frame):
             self.gp_entry.config(state="disabled")
 
         # ヨー角プルダウンの有効/無効切り替え
-        if mode == "photo":
-            self.yc.config(state="readonly")
-            self.update_yaw()
+        # 写真または動画のときは撮影時ヨー角を選択可能にする
+        if mode in ("photo", "video"):
+             self.yc.config(state="readonly")
+             self.update_yaw()
         else:
-            self.yc.config(state="disabled")
-            self.ye.config(state="disabled")
-            self.ye.grid_forget()
+             self.yc.config(state="disabled")
+             self.ye.config(state="disabled")
+             self.ye.grid_forget()
 
         # 飛行時ヨー角「次の撮影方向を向く」ラジオボタンの有効/無効切り替え
         for text, rb in self.heading_mode_radios:
@@ -1123,11 +1124,12 @@ class AppGUI(ttk.Frame):
             self.gp_entry.config(state="disabled")
  
     def update_yaw(self, event=None):
-        # 「写真撮影」以外は常に非活性
-        if self.capture_mode_var.get() != "photo":
+        # 「写真撮影」または「動画撮影」以外は常に非活性
+        if self.capture_mode_var.get() not in ("photo", "video"):
             self.ye.config(state="disabled")
             self.ye.grid_forget()
             return
+        # 撮影モードが photo/video のとき、手動入力選択で右にエントリを表示
         if self.yc.get() == "手動入力":
             self.ye.config(state="normal")
             self.ye.grid(row=6, column=3)
@@ -1159,21 +1161,22 @@ class AppGUI(ttk.Frame):
         yaw_angle = None
         yaw_mode = "none"
         mode = self.capture_mode_var.get()
-        if mode == "photo":
-            yval = YAW_OPTIONS[self.yc.get()]
-            if yval == "original":
-                yaw_mode = "original"
-            elif yval == "custom":
-                yaw_mode = "fixed"
-                try:
-                    yaw_angle = float(self.ye.get())
-                except:
-                    yaw_angle = None
-            elif yval == "free":
-                yaw_mode = "free"
-            else:
-                yaw_mode = "fixed"
-                yaw_angle = float(yval)
+        # 写真または動画選択時はプルダウンの値を反映（動画時も選択可能にしたため）
+        if mode in ("photo", "video"):
+             yval = YAW_OPTIONS[self.yc.get()]
+             if yval == "original":
+                 yaw_mode = "original"
+             elif yval == "custom":
+                 yaw_mode = "fixed"
+                 try:
+                     yaw_angle = float(self.ye.get())
+                 except:
+                     yaw_angle = None
+             elif yval == "free":
+                 yaw_mode = "free"
+             else:
+                 yaw_mode = "fixed"
+                 yaw_angle = float(yval)
         else:
             # 写真撮影なし時は強制的に"free"
             yaw_mode = "free"
