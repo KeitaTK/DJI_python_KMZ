@@ -510,7 +510,7 @@ def convert_kml(tree,
     
     # グローバル高度モード確認
     global_height_mode_elem = tree.find(".//wpml:waylineCoordinateSysParam/wpml:heightMode", NS)
-    global_height_mode = global_height_mode_elem.text if global_height_mode_elem is not None else "ATL"
+    global_height_mode = global_height_mode_elem.text if global_height_mode_elem is not None else "ALT"
     
     log.insert(tk.END, "\n=== 高度補正なし処理 ===\n")
     log.insert(tk.END, f"グローバル高度モード: {global_height_mode}\n")
@@ -914,7 +914,7 @@ class AppGUI(ttk.Frame):
     def __init__(self, master):
         super().__init__(master)
         # --- 高度選択 ---
-        ttk.Label(self, text="基準高度(ATLの時のみ動作):").grid(row=0, column=0, sticky="w")
+        ttk.Label(self, text="基準高度(ALTの時のみ動作):").grid(row=0, column=0, sticky="w")
         self.hc = ttk.Combobox(self, values=list(HEIGHT_OPTIONS), state="readonly", width=20)
         self.hc.set(next(iter(HEIGHT_OPTIONS)))
         self.hc.grid(row=0, column=1, padx=5, columnspan=2, sticky="w")
